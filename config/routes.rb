@@ -57,5 +57,8 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   resources :home
-  #root 'home#index'
+  resources :users
+  
+  root 'users#login'
+
 end

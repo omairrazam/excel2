@@ -1,1 +1,18 @@
-hell oindex of home
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+
+<% content_for :head do %>
+	<%= javascript_include_tag 'custom-highStock' %>
+<% end %>
+
+<div class="container">
+ <div id="container" style="height: 400px; min-width: 310px"></div>
+</div>
+
+<style type="text/css">
+	.highcharts-tooltip + text{
+		display: none;
+	}	
+</style>
