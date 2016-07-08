@@ -35,16 +35,7 @@
             </div>     
 
             <div style="padding-top:30px" class="panel-body" >
-                  <% if notice.present? %> 
-                    <div  id="login-alert" class="alert alert-info col-sm-12">
-                      <p><%= notice %></p>
-                    </div>
-                  <% end %>
-                  <% if alert.present? %> 
-                    <div  id="login-alert" class="alert alert-danger col-sm-12">
-                      <p ><%= alert %></p>
-                    </div>
-                  <% end %>
+                 
                     <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "form-horizontal" ) do |f| %>
                     
                     <!--<form id="loginform" class="form-horizontal" role="form">-->

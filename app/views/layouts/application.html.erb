@@ -8,6 +8,16 @@
    <%= yield :head %>
 </head>
 <body>
+ <% if notice.present? %> 
+    <div  id="login-alert" class="alert alert-info col-sm-12">
+      <p><%= notice %></p>
+    </div>
+  <% end %>
+  <% if alert.present? %> 
+    <div  id="login-alert" class="alert alert-danger col-sm-12">
+      <p ><%= alert %></p>
+    </div>
+  <% end %>
 <% if user_signed_in? %>
 	<nav class="navbar navbar-fixed-top navbar-inverse">
 		<div class="container">
