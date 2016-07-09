@@ -44,7 +44,7 @@ $(function () {
     }
 
     $.each(names, function (i, name) {
-        //alert('https://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?');
+
         $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?',    function (data) {
 
             seriesOptions[i] = {
