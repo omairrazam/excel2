@@ -5,7 +5,7 @@ class CreateData < ActiveRecord::Migration
       t.time :time
       
       t.float :number
-      t.string :type
+      t.string :typ
 
       t.timestamps null: false
     end

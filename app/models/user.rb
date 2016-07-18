@@ -4,7 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
- private    
+  has_many :machines
+
+  private    
 	def password_required?
   		new_record? ? super : false
 	end  

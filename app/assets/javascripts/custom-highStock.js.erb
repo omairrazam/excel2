@@ -1,0 +1,265 @@
+// $(function () {
+
+   
+//         $('#container').highcharts('StockChart', {
+
+
+//             rangeSelector : {
+//                 selected : 1
+//             },
+
+//             title : {
+//                 text : 'AAPL Stock Price'
+//             },
+//             xAxis: {
+//             type: 'datetime',
+//             dateTimeLabelFormats: {
+//             	millisecond: '%Y-%m-%d<br/>%H:%M:%S:%L',
+//                 second: '%Y-%m-%d<br/>%H:%M:%S',
+//                 minute: '%Y-%m-%d<br/>%H:%M',
+//                 hour: '%Y-%m-%d<br/>%H:%M',
+//                 day: '%Y<br/>%m-%d',
+//                 week: '%Y<br/>%m-%d',
+//                 month: '%Y-%m',
+//                 year: '%Y'
+//             },
+
+//         },
+//             rangeSelector : {
+//                 allButtonsEnabled: true,
+//                 buttons: [{
+//                     type: 'millisecond',
+//                     count: 10,
+//                     text: '1M',
+                    
+//                 },{
+//                     type: 'minute',
+//                     count: 1,
+//                     text: '2M',
+                    
+//                 }],
+//                 buttonTheme: {
+//                     width: 60
+//                 },
+//                 selected: 1
+//             },
+
+//             series : [{
+//                 name : 'AAPL',
+//                 data : json,
+//                 turboThreshold:0,
+//                 tooltip: {
+//                     valueDecimals: 2
+//                 }
+//             }]
+//         });
+   
+
+// });
+$(document).ready(function() {
+
+    $('input[type=radio][name=machine]').change(function() {
+        $("form#machine_form").submit();
+    });
+});
+
+$(function () {
+
+   
+        // Create the chart
+        $('#container_raw_data').highcharts('StockChart', {
+
+
+            rangeSelector : {
+                selected : 1
+            },
+
+            xAxis: [{
+              
+              gridLineEnabled:true,
+              ordinal: true,
+              gridLineDashStyle:"longdash",
+              gridLineWidth:1,
+              gridLineColor:"#bababa",
+              dateTimeLabelFormats:{
+              	  second:"%H:%M:%S",
+                  minute:"%H:%M",
+                  hour:"%H:%M",
+                  day:"%d %b",
+                  week:"%d %b",
+                  month:"%d %b",
+                  year:"%d %b"
+              },
+              type:"datetime"
+            }],
+
+            title : {
+                text : 'Machines Raw Data'
+            },
+            scrollbar:{
+            	liveRedraw:true
+            },
+
+            rangeSelector : {
+                allButtonsEnabled: true,
+
+                buttons: [
+                {
+                    type: 'minute',
+                    count:10,
+                    text: '10M',
+                    
+                },
+                {
+                    type: 'hour',
+                    count:1,
+                    text: '1H',
+                    
+                },
+                {
+                    type: 'day',
+                    count:1,
+                    text: '1D',
+                    
+                },
+                {
+                    type: 'All',
+                    text: 'ALL',
+                    
+                }
+
+                ],
+                buttonTheme: {
+                    width: 60
+                },
+                selected: 1
+            },
+
+            series : [{
+            	pointStart:Date.UTC(2015,9,27),
+                name : 'Machine1',
+                data : json,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                turboThreshold:0
+ 				
+               
+            }]
+        });
+   
+
+});
+
+
+$(function () {
+
+   
+        // Create the chart
+        $('#container_efficiency_data').highcharts('StockChart', {
+
+
+            rangeSelector : {
+                selected : 1
+            },
+
+            xAxis: [{
+              
+              gridLineEnabled:true,
+              ordinal: true,
+              gridLineDashStyle:"longdash",
+              gridLineWidth:1,
+              gridLineColor:"#bababa",
+              dateTimeLabelFormats:{
+                  second:"%H:%M:%S",
+                  minute:"%H:%M",
+                  hour:"%H:%M",
+                  day:"%d %b",
+                  week:"%d %b",
+                  month:"%d %b",
+                  year:"%d %b"
+              },
+              type:"datetime"
+            }],
+
+            title : {
+                text : 'Machines Efficiency Data'
+            },
+            scrollbar:{
+              liveRedraw:true
+            },
+
+            rangeSelector : {
+                allButtonsEnabled: true,
+
+                buttons: [
+                
+                {
+                    type: 'dat',
+                    count:1,
+                    text: '1D',
+                    
+                },
+                {
+                    type: 'dat',
+                    count:4,
+                    text: '4D',
+                    
+                },
+                {
+                    type: 'month',
+                    count:1,
+                    text: '1M',
+                    
+                }
+
+                ],
+                buttonTheme: {
+                    width: 60
+                },
+                selected: 1
+            },
+
+            series : [{
+              pointStart:Date.UTC(2015,9,27),
+                name : 'Machine1',
+                data : offtimes,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                turboThreshold:0
+        
+               
+            }]
+        });
+   
+
+});
+
+
+data = [
+[1248048000000,21.84],
+[1248048060000,21.64],
+[1248048120000,22.39],
+[1248048180000,22.55],
+[1248048240000,22.86],
+];
+
+data_a = [
+[1434904320000,21.84],
+[1466526780000,21.64],
+[1466526840000,22.39],
+[1466526900000,22.55],
+[1466526960000,22.86],
+];
+
+data_e = [
+[1434904320000,21.84],
+[1434904380000,21.64],
+[1434904440000,22.39],
+[1434904500000,22.55],
+[11434904560000,22.86],
+]
+
+
+

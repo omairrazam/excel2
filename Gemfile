@@ -4,7 +4,8 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+
+#gem 'pg', '~> 0.18.4'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -40,12 +41,20 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-
+  gem 'sqlite3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
+
 gem 'roo', '~> 2.4.0'
 gem 'certified', '~> 1.0'
-gem 'devise'
+gem 'devise', '~> 4.0', '>= 4.0.3'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'activerecord-import', '~> 0.4.0'
+gem 'google_drive'
+gem 'google-api-client', '0.9'
+gem "iconv", "~> 1.0.3"
+group :production do
+  gem 'pg', '0.18.4'
+end
+#gem 'gdata_19', '1.1.5'

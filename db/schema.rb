@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160709031623) do
+ActiveRecord::Schema.define(version: 20160717194638) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -29,10 +29,30 @@ ActiveRecord::Schema.define(version: 20160709031623) do
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
 
   create_table "data", force: :cascade do |t|
+    t.time     "Time"
+    t.float    "Number"
+    t.string   "Type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "machine_id"
+    t.date     "Date"
+    t.datetime "Timestamp"
+    t.string   "state"
+  end
+
+  add_index "data", ["machine_id"], name: "index_data_on_machine_id"
+
+  create_table "machines", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "offtimes", force: :cascade do |t|
     t.date     "date"
-    t.time     "time"
-    t.float    "number"
-    t.string   "type"
+    t.integer  "minutes"
+    t.integer  "machine_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -67,6 +87,7 @@ ActiveRecord::Schema.define(version: 20160709031623) do
     t.boolean  "recurring",              default: true
     t.string   "period",                 default: "Month"
     t.integer  "cycles",                 default: 12
+    t.string   "sheet_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
