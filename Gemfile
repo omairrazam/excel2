@@ -65,6 +65,6 @@ group :development do
     gem 'capistrano-bundler', require: false
     gem 'capistrano3-puma',   require: false
 end
-#gem 'net-ssh', '~> 2.9.2'
+gem 'net-ssh', '~> 2.9.2'
 gem 'puma'
 #gem 'gdata_19', '1.1.5'
