@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.5.0'
+lock '3.4.1'
 server '52.42.197.112', port: 22, roles: [:web, :app, :db], primary: true
 set :application, 'data'
 set :repo_url, 'git@github.com:omairrazam/excel2.git'
@@ -36,7 +36,7 @@ set :puma_workers,    0
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
-set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ec2/id_rsa_personal.pem) }
+#set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ec2/id_rsa_personal.pem) }
 
 set :pty,             true
 set :use_sudo,        false
@@ -48,7 +48,7 @@ set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log,  "#{release_path}/log/puma.access.log"
-set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
+set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ec2/id_rsa_personal.pub) }
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
