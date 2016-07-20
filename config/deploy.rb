@@ -36,7 +36,7 @@ set :puma_workers,    0
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
-#set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ec2/id_rsa_personal.pem) }
+set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ec2/id_rsa_personal.pem) }
 
 set :pty,             true
 set :use_sudo,        false
