@@ -36,6 +36,7 @@ set :puma_workers,    0
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ec2/id_rsa_personal.pem) }
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
