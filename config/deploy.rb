@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.4.1'
+
 server '52.42.197.112', port: 22, roles: [:web, :app, :db], primary: true
 set :application, 'data'
 set :repo_url, 'git@github.com:omairrazam/excel2.git'
@@ -36,7 +36,6 @@ set :puma_workers,    0
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
-#set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ec2/id_rsa_personal.pem) }
 
 set :pty,             true
 set :use_sudo,        false
