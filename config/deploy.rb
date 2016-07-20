@@ -1,6 +1,6 @@
 # config valid only for current version of Capistrano
 lock '3.5.0'
-
+server '52.42.197.112', port: 80, roles: [:web, :app, :db], primary: true
 set :application, 'data'
 set :repo_url, 'git@github.com:omairrazam/excel2.git'
 set :user, 'deploy'
