@@ -57,4 +57,14 @@ gem "iconv", "~> 1.0.3"
 group :production do
   gem 'pg', '0.18.4'
 end
+
+group :development do
+    gem 'capistrano',         require: false
+    gem 'capistrano-rvm',     require: false
+    gem 'capistrano-rails',   require: false
+    gem 'capistrano-bundler', require: false
+    gem 'capistrano3-puma',   require: false
+end
+
+gem 'puma'
 #gem 'gdata_19', '1.1.5'
