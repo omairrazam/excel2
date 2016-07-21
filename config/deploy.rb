@@ -15,7 +15,7 @@ set :puma_workers,    0
 # Default value for :scm is :git
 # set :scm, :git
 
-# Default value for :format is :airbrussh.
+# Default value for :format is :airbruset :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }.
 # set :format, :airbrussh
 
 # You can configure the Airbrussh format using :format_options.
@@ -51,7 +51,7 @@ set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"    #accept array f
 set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_access_log, "#{shared_path}/log/puma_error.log"
 set :puma_error_log, "#{shared_path}/log/puma_access.log"
-set :puma_role, :app
+set :puma_role, :appset :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
 set :puma_env, fetch(:rack_env, fetch(:rails_env, 'production'))
 set :puma_threads, [0, 8]
 set :puma_workers, 0
