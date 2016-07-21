@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   get 'redirect' => 'home#callback'
   get 'calenders' => 'home#calender'
+  get 'filter' => 'home#filter_stats'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

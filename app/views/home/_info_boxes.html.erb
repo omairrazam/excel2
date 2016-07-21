@@ -1,0 +1,18 @@
+
+  <% if params[:date].present? and @offtime.present? %>
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">Statistics</div>
+        <div class="panel-body">
+          <div class="well col-md-2"><strong>Efficiency:</strong><br><%= @offtime.try(:efficiency)  %> %</div>
+          <div class="well col-md-2"><strong>Offtime:</strong><br><%=distance_of_time_in_words(@offtime.try(:seconds) ) %></div>
+          <div class="well col-md-2">Basic Well</div>
+          <div class="well col-md-2">Basic Well</div>
+          <div class="well col-md-2">Basic Well</div>
+          <div class="well col-md-2">Basic Well</div>
+          <div class="well col-md-2">Basic Well</div>
+
+        </div>
+    </div>
+  </div>
+  <% end %>

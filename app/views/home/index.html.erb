@@ -1,8 +1,11 @@
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
-
 <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 <script type="text/javascript" src="https://www.highcharts.com/samples/data/usdeur.js"></script>
+
+
 
 <script type="text/javascript">
   var json = <%= @data_json %>;
@@ -104,10 +107,26 @@
   <div class="row">
     <div id="container_efficiency_data" class = "col-md-12" style="height: 400px; min-width: 310px"></div>
   </div>
+
+  <br>
+  <br>
+  <br>
+
+  <%= form_tag home_index_path, :method => 'get' , :id => 'info_box_form' do %>
+    <p>
+      <span>Pick date to find quick stats</span>
+      <%= text_field_tag :date, params[:date], id: 'datepicker' %>
+      <%= submit_tag "Search", :name => nil %>
+    </p>
+  <% end %>
+
+  <div id = "info_boxes"><%= render :partial => "info_boxes" %></div>
 </div>
 
 <style type="text/css">
 	.highcharts-tooltip + text{
 		display: none;
 	}	
+
+  
 </style>

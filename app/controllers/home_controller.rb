@@ -4,7 +4,7 @@ class HomeController < BaseController
     require 'google_drive'
     require 'csv'
 	require 'iconv'
-
+	
     before_action :load_machines, only: [:index]
 
 	def index
@@ -39,7 +39,13 @@ class HomeController < BaseController
 		@current_machine.update_offtimes
 		#@data_json = Datum.limit(2500)
 		
+		if(params[:date].present?)
+			@offtime 		= Offtime.where("date=?", params[:date]).first
+			@off_minutes 	= @offtime.try(:minutes)	
+			@day_efficiency = @offtime.try(:efficiency) 
+		end
 
+		#debugger
 
 		#@date = Datum.second.Date
 		#@data_json =  Datum.where(Date: @date.midnight..@date.end_of_day).pluck(:Number)
@@ -84,7 +90,18 @@ class HomeController < BaseController
 					 	
 					 	Array.[](t, m.Number)
 						}.to_json.to_s.html_safe
+
+		
+
+
 	end
+
+	def info_box_data
+		#@offtime = @current_machine.offtimes.where("date=?", date).first
+		#redirect_to root_path
+	end
+
+
 
 	def process_offTimes
 
