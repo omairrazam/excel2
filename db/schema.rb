@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160717194638) do
+ActiveRecord::Schema.define(version: 20160721234223) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -53,8 +53,10 @@ ActiveRecord::Schema.define(version: 20160717194638) do
     t.date     "date"
     t.integer  "minutes"
     t.integer  "machine_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "maximum_cont_on_time"
+    t.integer  "maximum_cont_off_time"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -83,11 +85,11 @@ ActiveRecord::Schema.define(version: 20160717194638) do
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.boolean  "account_active",         default: false
-    t.boolean  "is_admin",               default: false
     t.boolean  "recurring",              default: true
     t.string   "period",                 default: "Month"
     t.integer  "cycles",                 default: 12
     t.string   "sheet_name"
+    t.boolean  "is_admin",               default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

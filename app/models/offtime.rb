@@ -8,4 +8,8 @@ class Offtime < ActiveRecord::Base
 	def seconds
 		minutes * 60
 	end
+
+	def convert_to_ontime_in_seconds
+		(1440 - minutes) * 60
+	end
 end

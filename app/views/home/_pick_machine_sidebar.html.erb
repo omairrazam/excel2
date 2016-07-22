@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Select your machine</div>
+  <div class="panel-body">
+    <div class="row">
+      <%= form_tag home_index_path, :method => 'get' , :id => 'machine_form' do %>
+        <div class="switch-field">
+          <%= radio_button_tag 'machine', '1',params[:machine] == nil || params[:machine] == '1' ? true : false%>
+          <label for="machine_1">One</label>
+          <%= radio_button_tag 'machine', '2',params[:machine] == '2' ? true : false %>
+          <label for="machine_2">Two</label>
+          <%= radio_button_tag 'machine', '3',params[:machine] == '3' ? true : false %>
+          <label for="machine_3">Third</label>
+           <%= radio_button_tag 'machine', '4',params[:machine] == '4' ? true : false %>
+          <label for="machine_4">Fourth</label>
+           <%= radio_button_tag 'machine', '5',params[:machine] == '5' ? true : false %>
+          <label for="machine_5">Fifth</label>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

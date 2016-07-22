@@ -8,9 +8,10 @@ class HomeController < BaseController
     before_action :load_machines, only: [:index]
 
 	def index
+
 		#working_excel
 		if params[:machine].present?
-			if params[:machine].to_i == 1
+			if params[:machine].to_i    == 1
 				@current_machine = @machines.first
 			elsif params[:machine].to_i == 2
 				@current_machine = @machines.second
@@ -27,23 +28,26 @@ class HomeController < BaseController
 		#debugger
 		#working_excel
 		if @current_machine == nil
-			flash[:notice] = 'Machine not present'
+			flash[:notice]  = 'Machine not present'
 		    return
 		end
+
 		if @current_machine.datums.count <= 0
 			flash.now[:notice] = 'No Data Found...'
 		    return
 		end
+
 		getData
 		getOfftimes
 		@current_machine.update_offtimes
 		#@data_json = Datum.limit(2500)
 		
-		if(params[:date].present?)
-			@offtime 		= Offtime.where("date=?", params[:date]).first
-			@off_minutes 	= @offtime.try(:minutes)	
-			@day_efficiency = @offtime.try(:efficiency) 
-		end
+		@filter_date 	= params[:date] || @current_machine.datums.last.Date.strftime("%Y-%m-%d")
+		@offtime 		= Offtime.where("date=?", @filter_date).first
+		#debugger
+		@off_minutes 	= @offtime.try(:minutes)	
+		@day_efficiency = @offtime.try(:efficiency) 
+		
 
 		#debugger
 
@@ -51,12 +55,16 @@ class HomeController < BaseController
 		#@data_json =  Datum.where(Date: @date.midnight..@date.end_of_day).pluck(:Number)
 		#@data_json =  Datum.pluck(:Number)
 		#d = Datum.first.Time.strftime("%I:%m %p")
+
+		respond_to do |format|
+		  format.html 
+		  format.js 
+		end
+
 		
 	end
 
 	def getOfftimes
-		 
-		 
 		@data_offtimes  =  @current_machine.offtimes.select(:date,:minutes).map{|m|
 						t = m.date.beginning_of_day.to_time.to_i * 1000
 					 	Array.[](t, (1440 - m.minutes)*100/1440)
