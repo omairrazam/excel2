@@ -2,7 +2,7 @@
 
 #server '52.25.85.42', roles: [:web, :app, :db], primary: true
 
-set :application, 'data'
+set :application, 'excel2'
 set :repo_url, 'git@github.com:omairrazam/excel2.git'
 set :user, 'deploy'
 set :puma_threads,    [4, 16]
@@ -38,7 +38,7 @@ set :puma_workers,    0
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 set :branch, :master
-set :deploy_to, '/home/deploy/data'
+set :deploy_to, '/home/deploy/excel2'
 set :pty, true
 set :linked_files, %w{config/database.yml config/application.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}

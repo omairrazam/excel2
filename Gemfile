@@ -58,6 +58,7 @@ group :production do
   gem 'pg', '0.18.4'
 end
 
+gem 'figaro'
 group :development do
     gem 'capistrano',         require: false
     gem 'capistrano-rvm',     require: false
