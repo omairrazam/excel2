@@ -7,14 +7,14 @@ class Machine < ActiveRecord::Base
 	def update_offtimes
 		#debugger
 		offtime_last_date 	= self.offtimes.last.try(:date) 
-		datum_first_date    = self.datums.first.Date
+		datum_first_date    = self.datums.first.datee
 		starting_date  		= offtime_last_date
 
 		if offtime_last_date.blank?
 			starting_date   = datum_first_date
 		end
-
-		hash 		 = self.datums.all.where('Date>=?', starting_date).group_by{ |dat| dat.Date.to_date }
+		#debugger
+		hash 		 = self.datums.all.where('datee>=?', starting_date).group_by{ |dat| dat.datee.to_date }
 		last_visited = 0
 		hash.each{|date,dats|
 			# condition to check if this date is less than last_visited
@@ -24,7 +24,7 @@ class Machine < ActiveRecord::Base
 			date_maximum_cont_on_time  = 0
 			date_maximum_cont_off_time = -1
 
-			current_date_datums = self.datums.all.where("Date=?",date)
+			current_date_datums = self.datums.all.where("datee=?",date)
 			last_compared_id    = -1
 			current_date_datums.each_with_index {|dat,index|
 				# if machine is off?
@@ -40,7 +40,7 @@ class Machine < ActiveRecord::Base
 					next_on_datum   = current_date_datums.where("state =? and id >?" , "on" , dat.id).limit(1)
 					
 					if next_on_datum.count > 0
-						time_difference  	= next_on_datum.first.Time.minus_with_coercion(dat.Time)/60
+						time_difference  	= next_on_datum.first.timee.minus_with_coercion(dat.timee)/60
 						last_compared_id 	= next_on_datum.first.id
 
 						
@@ -54,7 +54,7 @@ class Machine < ActiveRecord::Base
 					next_on_datum   = current_date_datums.where("state =? and id >?" , "off" , dat.id).limit(1)
 					
 					if next_on_datum.count > 0
-						time_difference  	= next_on_datum.first.Time.minus_with_coercion(dat.Time)/60
+						time_difference  	= next_on_datum.first.timee.minus_with_coercion(dat.timee)/60
 						last_compared_id 	= next_on_datum.first.id
 
 						if time_difference > date_maximum_cont_on_time || date_maximum_cont_on_time == -1
@@ -76,7 +76,7 @@ class Machine < ActiveRecord::Base
 	end
 
 	def all_dates
-		self.datums.uniq.pluck(:Date)
+		self.datums.uniq.pluck(:datee)
 	end
 
 	def get_offdatums
@@ -84,14 +84,14 @@ class Machine < ActiveRecord::Base
 	end
 
 	def average_value_by_day(date)
-		 datums.where('Date=?', date).average(:Number).to_f.round(2)
+		 datums.where('datee=?', date).average(:numbere).to_f.round(2)
 	end
 
 	def maximum_value_by_day(date)
-		 datums.where('Date=?', date).maximum(:Number).to_f.round(2)
+		 datums.where('datee=?', date).maximum(:numbere).to_f.round(2)
 	end
 
 	def minimum_value_by_day(date)
-		 datums.where('Date=?', date).minimum(:Number).to_f.round(2)
+		 datums.where('datee=?', date).minimum(:numbere).to_f.round(2)
 	end
 end

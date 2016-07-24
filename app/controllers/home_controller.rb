@@ -42,7 +42,7 @@ class HomeController < BaseController
 		@current_machine.update_offtimes
 		#@data_json = Datum.limit(2500)
 		
-		@filter_date 	= params[:date] || @current_machine.datums.last.Date.strftime("%Y-%m-%d")
+		@filter_date 	= params[:date] || @current_machine.datums.last.datee.strftime("%Y-%m-%d")
 		@offtime 		= Offtime.where("date=?", @filter_date).first
 		#debugger
 		@off_minutes 	= @offtime.try(:minutes)	
@@ -73,19 +73,19 @@ class HomeController < BaseController
 
 	def getData
 		#debugger
-		 now = @current_machine.datums.first.Timestamp.beginning_of_minute.strftime('%s')
+		 now = @current_machine.datums.first.timestampe.beginning_of_minute.strftime('%s')
 		 now = now.to_i  * 1000
 		 
 		# now = 1248048000000
 
 		#debugger
 		last_time = 0
-		@data_json  =  @current_machine.datums.select(:id,:Timestamp,:Number).map{|m|
+		@data_json  =  @current_machine.datums.select(:id,:timestampe,:numbere).map{|m|
 						#debugger
 
 					 	#now = now + 60000
 
-					 	t = m.Timestamp.strftime('%s').to_i * 1000
+					 	t = m.timestampe.strftime('%s').to_i * 1000
 
 					 	
 					 	 if t == last_time
@@ -96,7 +96,7 @@ class HomeController < BaseController
 					 	
 					 	last_time = t
 					 	
-					 	Array.[](t, m.Number)
+					 	Array.[](t, m.numbere)
 						}.to_json.to_s.html_safe
 
 		
@@ -156,16 +156,22 @@ class HomeController < BaseController
 			  (@starting_index..data_file.last_row).each do |i|
 			  	#debugger
 			    row = Hash[[header, data_file.row(i)].transpose]
-
+#debugger
 			    d 				= Datum.new
-			    d.attributes    = row.to_hash.slice("Time","Date","Number","Type","Timestamp")
+			    #d.attributes    = row.to_hash.slice("Time","Date","Number","Type","Timestamp")
+			    d.timee 	= row["Time"]
+			    d.datee 	= row["Date"]
+			    d.numbere 	= row["Number"]
+			    d.typee		= row["Type"]
+			    d.timestampe = row["Timestamp"]
+
 			    current_machine = @machines.find{|m|m.name == row["ID"]}
 			    d.machine_id    = current_machine.id
-			    d.Time 			= d.Time.beginning_of_minute
+			    d.timee 			= d.timee.beginning_of_minute
 
-			    d.Timestamp = row["Date"]+' '+ row["Time"]
-			    d.Timestamp = d.Timestamp.beginning_of_minute
-			    if d.Number <= 10
+			    d.timestampe = row["Date"]+' '+ row["Time"]
+			    d.timestampe = d.timestampe.beginning_of_minute
+			    if d.numbere <= 10
 			    	d.state = "off"
 			    else
 			    	d.state = "on"
@@ -298,6 +304,6 @@ class HomeController < BaseController
 	end
 
 	def data_params
-      params.permit(:Date, :Time, :Number, :Type)
+      params.permit(:datee, :timee, :numbere, :typee)
     end
 end

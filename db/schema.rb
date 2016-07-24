@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160724013842) do
+ActiveRecord::Schema.define(version: 20160724181627) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -24,23 +27,23 @@ ActiveRecord::Schema.define(version: 20160724013842) do
     t.datetime "updated_at"
   end
 
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "data", force: :cascade do |t|
-    t.time     "Time"
-    t.float    "Number"
-    t.string   "Type"
+    t.time     "timee"
+    t.float    "numbere"
+    t.string   "typee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "machine_id"
-    t.date     "Date"
-    t.datetime "Timestamp"
+    t.date     "datee"
+    t.datetime "timestampe"
     t.string   "state"
   end
 
-  add_index "data", ["machine_id"], name: "index_data_on_machine_id"
+  add_index "data", ["machine_id"], name: "index_data_on_machine_id", using: :btree
 
   create_table "machines", force: :cascade do |t|
     t.integer  "user_id"
@@ -59,18 +62,6 @@ ActiveRecord::Schema.define(version: 20160724013842) do
     t.integer  "maximum_cont_off_time"
   end
 
-  create_table "transactions", force: :cascade do |t|
-    t.text     "notification"
-    t.string   "status"
-    t.string   "transaction_id"
-    t.datetime "purchased_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "user_id"
-  end
-
-  add_index "transactions", ["user_id"], name: "index_transactions_on_user_id"
-
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",      null: false
     t.string   "encrypted_password",     default: "",      null: false
@@ -84,7 +75,6 @@ ActiveRecord::Schema.define(version: 20160724013842) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
-    t.boolean  "account_active",         default: false
     t.boolean  "recurring",              default: true
     t.string   "period",                 default: "Month"
     t.integer  "cycles",                 default: 12
@@ -92,7 +82,8 @@ ActiveRecord::Schema.define(version: 20160724013842) do
     t.boolean  "is_admin"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "data", "machines"
 end
