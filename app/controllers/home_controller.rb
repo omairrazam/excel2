@@ -134,6 +134,9 @@ class HomeController < BaseController
 	end
 
 	def working_excel
+		directory_name = Rails.root.to_s +  "/excelsheets"
+		Dir.mkdir(directory_name) unless File.exists?(directory_name)
+
 	   session = GoogleDrive.saved_session("config.json")
 	   ws      = session.spreadsheet_by_title(current_user.sheet_name).worksheets[0]
 	  	
