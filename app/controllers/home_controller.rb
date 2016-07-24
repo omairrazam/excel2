@@ -9,7 +9,7 @@ class HomeController < BaseController
 
 	def index
 
-		#working_excel
+		working_excel
 		if params[:machine].present?
 			if params[:machine].to_i    == 1
 				@current_machine = @machines.first
@@ -137,14 +137,14 @@ class HomeController < BaseController
 	   session = GoogleDrive.saved_session("config.json")
 	   ws      = session.spreadsheet_by_title(current_user.sheet_name).worksheets[0]
 	  	
-	   ws.export_as_file( "/Users/Apple/RAILS_PROJECTS/excel2/tmp/#{current_user.sheet_name}.csv")
+	   ws.export_as_file(Rails.root.to_s +  "/excelsheets/#{current_user.sheet_name}.csv")
 	   #debugger
-	   data_file = Roo::CSV.new("/Users/Apple/RAILS_PROJECTS/excel2/tmp/#{current_user.sheet_name}.csv")
+	   data_file = Roo::CSV.new(Rails.root.to_s + "/excelsheets/#{current_user.sheet_name}.csv")
 	    #debugger
 
 	    if @starting_index >= data_file.last_row
-		    	flash.now[:notice] = 'Your Data is upto date'
-		    	return
+	    	flash.now[:notice] = 'Your Data is upto date'
+	    	return
 		end
 
 	  	Datum.transaction do
