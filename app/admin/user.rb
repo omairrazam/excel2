@@ -13,7 +13,7 @@ ActiveAdmin.register User do
 #   permitted
 # end
 
-permit_params :email, :password, :is_admin, :sheet_name
+  permit_params :email, :password, :is_admin, :sheet_name
   index do
     selectable_column
     column :email
@@ -24,6 +24,8 @@ permit_params :email, :password, :is_admin, :sheet_name
     actions
   end
 
+
+
   form do |f|
     f.inputs "Admin Details" do
       f.input :email
@@ -33,4 +35,12 @@ permit_params :email, :password, :is_admin, :sheet_name
     end
     f.actions
   end  
+
+  show do
+    attributes_table :email, :is_admin, :sheet_name
+  end
+  controller do
+    
+  end
+  
 end

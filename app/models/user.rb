@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :machines
+  validates :sheet_name, :presence => true
 
   private    
 	def password_required?

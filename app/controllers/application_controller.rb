@@ -18,6 +18,29 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
+    
+    if current_user.sign_in_count == 1
+      m1 = resource.machines.build
+      m1.name = "SHEL001"
+      m1.save
+
+      m2 = resource.machines.build
+      m2.name = "SHEL002"
+      m2.save
+
+      m3 = resource.machines.build
+      m3.name = "SHEL003"
+      m3.save
+
+      m4 = resource.machines.build
+      m4.name = "SHEL004"
+      m4.save
+
+      m5 = resource.machines.build
+      m5.name = "SHEL005"
+      m5.save
+    end
+
     if resource.is_admin?
         admin_dashboard_path
     else

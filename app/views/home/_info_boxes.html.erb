@@ -1,15 +1,16 @@
+
 <div id="info_data_processing" style="display:none;"><%= image_tag "processing.gif" %></div>
 <% if @current_machine.present? %>
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">Statistics</div>
         <div class="panel-body">
-          <div class="well col-md-2"><strong>Live:</strong><br><%= @current_machine.datums.last.Number rescue '-'%></div>
+          <div class="well col-md-2"><strong>Live:</strong><br><%= @current_machine.datums.last.numbere rescue '-'%></div>
           <div class="well col-md-2"><strong>Efficiency:</strong><br><%= @offtime.try(:efficiency)  %> %</div>
           <div class="well col-md-2"><strong>Total uptime:</strong><br><%= @offtime.present? ? distance_of_time_in_words(@offtime.try(:convert_to_ontime_in_seconds)) : '-'  %></div>
-          <div class="well col-md-2"><strong>Average Value:</strong><br><%= @current_machine.average_value_by_day(params[:date]) %></div>
-          <div class="well col-md-2"><strong>Maximum Value:</strong><br><%= @current_machine.maximum_value_by_day(params[:date]) %></div>
-          <div class="well col-md-2"><strong>Minimum Value:</strong><br><%= @current_machine.minimum_value_by_day(params[:date]) %></div>
+          <div class="well col-md-2"><strong>Average Value:</strong><br><%= @current_machine.average_value_by_day(@filter_date) %></div>
+          <div class="well col-md-2"><strong>Maximum Value:</strong><br><%= @current_machine.maximum_value_by_day(@filter_date) %></div>
+          <div class="well col-md-2"><strong>Minimum Value:</strong><br><%= @current_machine.minimum_value_by_day(@filter_date) %></div>
           <div class="well col-md-3"><strong>Max continuous off time:</strong><br><%= @offtime.present? ? distance_of_time_in_words(@offtime.try(:maximum_cont_off_time)*60) : "-"  %></div>
           <div class="well col-md-3"><strong>Max continuous on time:</strong><br><%= @offtime.present? ? distance_of_time_in_words(@offtime.try(:maximum_cont_on_time)*60) : "-" %></div>
 

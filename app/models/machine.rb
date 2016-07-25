@@ -75,6 +75,83 @@ class Machine < ActiveRecord::Base
 		}
 	end
 
+	def getdata_for_graph
+		now  = self.datums.first.timestampe.beginning_of_minute.strftime('%s')
+		now = now.to_i  * 1000
+		 
+		last_time  = 0
+		data_json  =  self.datums.select(:id,:timestampe,:numbere).map{|m|
+	 	t = m.timestampe.strftime('%s').to_i * 1000
+
+		if t == last_time
+			next
+		elsif t < last_time
+			t = last_time + 1 
+		end
+	 	
+	 	last_time = t
+	 	Array.[](t, m.numbere)
+		}.to_json.to_s.html_safe
+		data_json
+	end
+
+	def getofftimes_for_graph
+		data_offtimes  =  self.offtimes.select(:date,:minutes).map{|m|
+		t = m.date.beginning_of_day.to_time.to_i * 1000
+	 	Array.[](t, (1440 - m.minutes)*100/1440)
+		}.to_json.to_s.html_safe
+		data_offtimes
+	end
+
+	def fetch_data_from_excel(session,sheet_name,starting_index,current_user_machines)
+		
+		ws      = session.spreadsheet_by_title(sheet_name).worksheets[0]
+			
+		ws.export_as_file(Rails.root.to_s +  "/excelsheets/#{sheet_name}.csv")
+
+		data_file = Roo::CSV.new(Rails.root.to_s + "/excelsheets/#{sheet_name}.csv")
+	   
+
+	    if starting_index >= data_file.last_row
+	    	return
+		end
+
+	  	Datum.transaction do
+		    header = data_file.row(1)
+			(starting_index..data_file.last_row).each do |i|
+
+			row = Hash[[header, data_file.row(i)].transpose]
+			d 			= Datum.new
+			d.timee 	= row["Time"]
+			d.datee 	= row["Date"]
+			d.numbere 	= row["Number"]
+			d.typee		= row["Type"]
+			d.timestampe = row["Timestamp"]
+
+			current_machine = current_user_machines.find{|m|m.name == row["ID"]}
+			d.machine_id    = current_machine.id
+			d.timee 		= d.timee.beginning_of_minute
+
+			d.timestampe = row["Date"]+' '+ row["Time"]
+			d.timestampe = d.timestampe.beginning_of_minute
+			
+			if d.numbere <= 10
+				d.state = "off"
+			else
+				d.state = "on"
+			end
+			d.save!
+			end
+		end
+	end
+
+	def has_data
+		if self.datums.count <= 0
+			return false
+		else
+			return true
+		end
+	end
 	def all_dates
 		self.datums.uniq.pluck(:datee)
 	end
