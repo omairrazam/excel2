@@ -1,8 +1,8 @@
 class Machine < ActiveRecord::Base
 	#scope :average_by_day, -> date{ where(Date: date) if date.present?}
 	belongs_to :user
-	has_many   :datums
-	has_many   :offtimes
+	has_many   :datums , dependent: :destroy
+	has_many   :offtimes , dependent: :destroy
 
 	def update_offtimes
 		#debugger
@@ -83,30 +83,32 @@ class Machine < ActiveRecord::Base
 		data_json  =  self.datums.select(:id,:timestampe,:numbere).map{|m|
 	 	t = m.timestampe.strftime('%s').to_i * 1000
 
-		if t == last_time
+		if t <= last_time 
 			next
-		elsif t < last_time
-			t = last_time + 1 
 		end
 	 	
 	 	last_time = t
 	 	Array.[](t, m.numbere)
-		}.to_json.to_s.html_safe
+		}.compact.to_json.to_s.html_safe
 		data_json
+
+		#debugger
 	end
 
 	def getofftimes_for_graph
-		data_offtimes  =  self.offtimes.select(:date,:minutes).map{|m|
-		t = m.date.beginning_of_day.to_time.to_i * 1000
+
+		data_offtimes  =  self.offtimes.order('date ASC').select(:date,:minutes).map{|m|
+		
+		t = m.date.strftime('%s').to_i * 1000
 	 	Array.[](t, (1440 - m.minutes)*100/1440)
 		}.to_json.to_s.html_safe
 		data_offtimes
+		#debugger
 	end
 
-	def fetch_data_from_excel(session,sheet_name,starting_index,current_user_machines)
+	def fetch_data_from_excel(ws,sheet_name,starting_index,current_user_machines)
 		
-		ws      = session.spreadsheet_by_title(sheet_name).worksheets[0]
-			
+		
 		ws.export_as_file(Rails.root.to_s +  "/excelsheets/#{sheet_name}.csv")
 
 		data_file = Roo::CSV.new(Rails.root.to_s + "/excelsheets/#{sheet_name}.csv")
@@ -115,17 +117,18 @@ class Machine < ActiveRecord::Base
 	    if starting_index >= data_file.last_row
 	    	return
 		end
-
+		last_date_visited = DateTime.parse("2000-01-01 00:00:00").strftime('%s').to_i
 	  	Datum.transaction do
 		    header = data_file.row(1)
 			(starting_index..data_file.last_row).each do |i|
 
 			row = Hash[[header, data_file.row(i)].transpose]
-			d 			= Datum.new
-			d.timee 	= row["Time"]
-			d.datee 	= row["Date"]
-			d.numbere 	= row["Number"]
-			d.typee		= row["Type"]
+			
+			d 			 = Datum.new
+			d.timee 	 = row["Time"]
+			d.datee 	 = row["Date"]
+			d.numbere 	 = row["Number"]
+			d.typee		 = row["Type"]
 			d.timestampe = row["Timestamp"]
 
 			current_machine = current_user_machines.find{|m|m.name == row["ID"]}
@@ -136,11 +139,17 @@ class Machine < ActiveRecord::Base
 			d.timestampe = d.timestampe.beginning_of_minute
 			
 			if d.numbere <= 10
-				d.state = "off"
-			else
-				d.state = "on"
+					d.state = "off"
+				else
+					d.state = "on"
 			end
-			d.save!
+
+			if d.timestampe.strftime('%s').to_i > last_date_visited
+				d.save!
+			end
+
+			last_date_visited = d.timestampe.strftime('%s').to_i
+
 			end
 		end
 	end
