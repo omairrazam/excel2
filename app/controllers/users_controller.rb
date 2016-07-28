@@ -6,4 +6,9 @@ class UsersController < ApplicationController
 			redirect_to home_index_path
 		end
 	end
+
+	def show
+		@resource = current_user
+		render :template =>"devise/registrations/edit"
+	end
 end

@@ -86,7 +86,12 @@ $(function() {
             title : {
                 text : 'Machines Raw Data',
                 align: 'left',
-                x:50
+                style: {
+                  color: '#333333',
+                  font: '16px Arial',
+                  fontWeight:'bold'
+                }
+                
             },
             scrollbar:{
               liveRedraw:true
@@ -94,7 +99,7 @@ $(function() {
 
             rangeSelector : {
                 allButtonsEnabled: true,
-                x:10,
+                inputPosition: { y: 5 },
                 buttons: [
                 {
                     type: 'minute',
@@ -142,7 +147,11 @@ $(function() {
             }]
             
         }, function(chart){
-
+          // apply the date pickers
+            setTimeout(function(){
+                $('input.highcharts-range-selector', $('#' + chart.options.chart.renderTo))
+                    .datepicker()
+            },0)
            
         });
    
