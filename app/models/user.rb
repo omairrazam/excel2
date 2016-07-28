@@ -4,8 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :machines, dependent: :destroy
-  validates :sheet_name, :presence => true
+  has_many :machines
+  #validates :sheet_name, :presence => true
 
   private    
 	def password_required?
