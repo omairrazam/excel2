@@ -79,9 +79,27 @@ class Machine < ActiveRecord::Base
 
 	def getdata_for_graph
 
-		data_json = datums.pluck(:timestampe,:numbere)
-		data_json = data_json.map { |k,v| [k.to_i,v.to_i] }
-	
+		data_json = datums.order('timestampe asc').pluck(:timestampe,:numbere)
+
+		# data_json = data_json.map { |k,v| 
+				 
+		# 			if k.to_i < last
+		# 				debugger
+		# 				#next
+		# 			end
+
+		# 			[k.to_i,v.to_i]
+		# 			last = k.to_i
+					
+		# }
+		# data_json
+		#debugger
+		data_json = data_json.map { |k,v| 
+				 
+					[k.to_i,v.to_i]
+				
+		}
+	#debugger
 		# now  = self.datums.first.timestampe.beginning_of_minute.strftime('%s')
 		# now = now.to_i  * 1000
 		 
@@ -102,7 +120,7 @@ class Machine < ActiveRecord::Base
 	end
 
 	def getofftimes_for_graph
-		data_offtimes = self.offtimes.pluck(:timestampe,:minutes)
+		data_offtimes = self.offtimes.order('timestampe asc').pluck(:timestampe,:minutes)
 		data_offtimes = data_offtimes.map { |k,v| [k.to_i,(1440 - v)*100/1440] }
 		# data_offtimes  =  self.offtimes.order('date ASC').select(:date,:minutes).map{|m|
 		
@@ -165,11 +183,12 @@ class Machine < ActiveRecord::Base
 			end
 
 
-			if d.timestampe.to_i >= last_date_visited.to_i
+			if d.timestampe.to_i > last_date_visited.to_i
 				d.save!
+				last_date_visited = d.timestampe.to_i
 			end
 
-			last_date_visited = d.timestampe.to_i
+			
 
 			end
 		end
