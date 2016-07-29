@@ -165,7 +165,7 @@ class Machine < ActiveRecord::Base
 			end
 
 
-			if d.timestampe.to_i > last_date_visited.to_i
+			if d.timestampe.to_i >= last_date_visited.to_i
 				d.save!
 			end
 
