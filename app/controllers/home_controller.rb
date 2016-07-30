@@ -38,15 +38,10 @@ class HomeController < BaseController
 		end
 
 		@data_json = @current_machine.getdata_for_graph
-
-		#@data_json = [[1467214740000, 129], [1467213540000, 0], [1467127140000, 129], [1467127080000, 121], [1467127020000, 116], [1467126900000, 109]];
-		#debugger
 		@current_machine.update_offtimes
-
 		@data_offtimes = @current_machine.getofftimes_for_graph
 		
-		 info_box_info
-		#debugger
+		info_box_info
 		respond_to do |format|
 		  format.html 
 		  #format.js 
@@ -96,7 +91,7 @@ class HomeController < BaseController
 		@filter_date 	= params[:date] || @current_machine.datums.last.datee.strftime("%Y-%m-%d")
 		@offtime 		= @current_machine.offtimes.where("date=?", @filter_date).first
 		@off_minutes 	= @offtime.try(:minutes)	
-		@day_efficiency = @offtime.try(:efficiency) 
+		@day_efficiency = @current_machine.efficiency(@filter_date)
 	end
 
 	def data_params
