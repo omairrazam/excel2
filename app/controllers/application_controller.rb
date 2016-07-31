@@ -41,10 +41,10 @@ class ApplicationController < ActionController::Base
       m5.save
     end
 
-    if resource.is_admin?
-        admin_dashboard_path
-    else
-        root_path
-    end
+    # if resource.is_admin?
+    #     admin_dashboard_path
+    # else
+    root_path
+    # end
   end
 end

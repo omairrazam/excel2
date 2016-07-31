@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160724181627) do
+ActiveRecord::Schema.define(version: 20160730150835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 20160724181627) do
     t.datetime "updated_at", null: false
     t.integer  "machine_id"
     t.date     "datee"
-    t.datetime "timestampe"
     t.string   "state"
+    t.string   "timestampe"
   end
 
   add_index "data", ["machine_id"], name: "index_data_on_machine_id", using: :btree
@@ -60,6 +60,8 @@ ActiveRecord::Schema.define(version: 20160724181627) do
     t.datetime "updated_at",            null: false
     t.integer  "maximum_cont_on_time"
     t.integer  "maximum_cont_off_time"
+    t.string   "timestampe"
+    t.float    "efficiency"
   end
 
   create_table "users", force: :cascade do |t|
@@ -80,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160724181627) do
     t.integer  "cycles",                 default: 12
     t.string   "sheet_name"
     t.boolean  "is_admin"
+    t.integer  "next_index_excel",       default: 2
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
