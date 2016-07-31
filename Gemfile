@@ -29,6 +29,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Unicorn as the app server
 # gem 'unicorn'
+gem 'whenever', require: false
 gem 'activeadmin', github: 'gregbell/active_admin'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -46,7 +47,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-
+gem 'delayed_job_active_record'
+gem 'daemons'
 gem 'roo', '~> 2.4.0'
 gem 'certified', '~> 1.0'
 gem 'devise', '~> 4.0', '>= 4.0.3'
@@ -61,11 +63,11 @@ end
 
 gem 'figaro'
 group :development do
-    gem 'capistrano',         require: false
-    gem 'capistrano-rvm',     require: false
-    gem 'capistrano-rails',   require: false
-    gem 'capistrano-bundler', require: false
-    gem 'capistrano3-puma',   require: false
+ gem 'capistrano',         require: false
+ gem 'capistrano-rvm',     require: false
+ gem 'capistrano-rails',   require: false
+ gem 'capistrano-bundler', require: false
+ gem 'capistrano3-puma',   require: false
 end
 #gem 'net-ssh', '~> 2.7.0'
 gem 'puma'
