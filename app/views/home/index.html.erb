@@ -31,6 +31,7 @@
           <p>
             <span>Pick date to find quick stats</span>
             <%= text_field_tag :date, @filter_date, id: 'info_box_datepicker' %>
+            <%= hidden_field_tag "machine_id", @current_machine.id %>
             <%= submit_tag "Filter", :name => nil %>
           </p>
         <% end %>

@@ -41,7 +41,7 @@ class HomeController < BaseController
 		@current_machine.update_offtimes
 		@data_offtimes = @current_machine.getofftimes_for_graph
 		
-		info_box_info
+		
 		respond_to do |format|
 		  format.html 
 		  #format.js 
@@ -49,8 +49,17 @@ class HomeController < BaseController
 	end
 
 	def ajax_info_box_update
-		select_current_machine
-		info_box_info
+		
+		@current_machine = @machines.where('id=?', params[:machine_id]).first
+		@date 	 = params[:date]
+
+		if @current_machine.present? and @date.present?
+			@filter_date 	=  @date|| @current_machine.datums.last.datee.strftime("%Y-%m-%d")
+			@offtime 		=  @current_machine.offtimes.where("date=?", @filter_date).first
+			@off_minutes 	=  @offtime.try(:minutes)	
+			@day_efficiency =  @current_machine.efficiency(@filter_date)
+		end
+
 		respond_to do |format|
 		  format.html 
 		  format.js 
@@ -87,14 +96,7 @@ class HomeController < BaseController
 		# end
 	end
 
-	def info_box_info
-		@filter_date 	= params[:date] || @current_machine.datums.last.datee.strftime("%Y-%m-%d")
-		@offtime 		= @current_machine.offtimes.where("date=?", @filter_date).first
-		@off_minutes 	= @offtime.try(:minutes)	
-		@day_efficiency = @current_machine.efficiency(@filter_date)
-	end
-
 	def data_params
-      params.permit(:datee, :timee, :numbere, :typee)
+        params.permit(:datee, :timee, :numbere, :typee)
     end
 end
