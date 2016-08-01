@@ -25,7 +25,7 @@ server '52.36.143.78', user: 'deploy', roles: %w{web app db}
 :sidekiqctl_cmd => "#{fetch(:bundle_cmd, "bundle")} exec sidekiqctl" # Only for capistrano2.5
 :sidekiq_user => nil #user to run sidekiq as
 
-:pty,  false
+set :pty,  false
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
