@@ -16,16 +16,18 @@ class HomeController < BaseController
 		    return
 		else 
 			if current_user.sheet_name.present?
-				directory_name = Rails.root.to_s +  "/excelsheets"
-				Dir.mkdir(directory_name) unless File.exists?(directory_name)
-				session = GoogleDrive.saved_session("config.json")
-				ws = session.spreadsheet_by_title(current_user.sheet_name).worksheets[0] rescue nil
-				if ws.blank?
-					flash[:alert]  = "Google Sheet of name '#{current_user.sheet_name}' doesn't exist on your drive."
-					return
-				end
+				#debugger
+				PygmentsWorker.perform_in(1.minute,current_user.id)
+				# directory_name = Rails.root.to_s +  "/excelsheets"
+				# Dir.mkdir(directory_name) unless File.exists?(directory_name)
+				# session = GoogleDrive.saved_session("config.json")
+				# ws = session.spreadsheet_by_title(current_user.sheet_name).worksheets[0] rescue nil
+				# if ws.blank?
+				# 	flash[:alert]  = "Google Sheet of name '#{current_user.sheet_name}' doesn't exist on your drive."
+				# 	return
+				# end
 
-				@current_machine.fetch_data_from_excel(ws, current_user, @machines)
+				# @current_machine.fetch_data_from_excel(ws, current_user, @machines)
 			else
 				flash[:alert]  = 'Sheet name missing'
 				return

@@ -69,5 +69,6 @@ group :development do
 end
 #gem 'net-ssh', '~> 2.7.0'
 gem 'puma'
+gem 'sidekiq'
 
 #gem 'gdata_19', '1.1.5'
