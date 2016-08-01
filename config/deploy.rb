@@ -11,7 +11,6 @@ set :puma_threads,    [4, 16]
 set :puma_workers,    0
 
 set :sidekiq_role, :app  
-set :sidekiq_config, "#{current_path}/config/sidekiq.yml"  
 set :sidekiq_env, 'production'  
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
