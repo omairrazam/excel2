@@ -73,6 +73,7 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
 
-gem 'capistrano-sidekiq'
+gem 'capistrano-sidekiq' , group: :development
+
 
 #gem 'gdata_19', '1.1.5'
