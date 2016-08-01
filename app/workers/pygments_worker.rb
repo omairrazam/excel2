@@ -19,6 +19,7 @@ class PygmentsWorker
 		# 	return
 		# end
 		machines = current_user.machines
+    machines.first.update_offtimes
 		machines.first.fetch_data_from_excel(ws, current_user, machines)
   end
 end

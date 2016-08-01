@@ -17,8 +17,6 @@ class User < ActiveRecord::Base
     
   end
 
-
-
   private    
 	def password_required?
   		new_record? ? super : false
