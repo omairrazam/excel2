@@ -1,6 +1,8 @@
 # config valid only for current version of Capistrano
 
 #server '52.25.85.42', roles: [:web, :app, :db], primary: true
+require 'sidekiq/capistrano'
+
 
 set :application, 'excel2'
 set :repo_url, 'git@github.com:omairrazam/excel2.git'

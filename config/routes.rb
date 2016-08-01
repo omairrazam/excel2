@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations" }
   ActiveAdmin.routes(self)
@@ -5,6 +7,7 @@ Rails.application.routes.draw do
   get 'calenders' => 'home#calender'
   get 'filter'    => 'home#filter_stats'
   get 'ajax_info_box_update' => 'home#ajax_info_box_update'
+  mount Sidekiq::Web, at: '/sidekiq'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
