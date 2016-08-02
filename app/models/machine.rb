@@ -5,7 +5,9 @@ class Machine < ActiveRecord::Base
 	has_many   :offtimes , dependent: :destroy
 
 	def update_offtimes
-		
+		if self.datums.count == 0
+			return
+		end
 		offtime_last_date 	= self.offtimes.last.try(:date) 
 		datum_first_date    = self.datums.first.datee
 		starting_date  		= offtime_last_date
@@ -38,17 +40,29 @@ class Machine < ActiveRecord::Base
 				end
 				#debugger
 				if dat.state == "off"	
-					next_on_datum   = current_date_datums.where("state =? and id >?" , "on" , dat.id).limit(1)
-					
+					next_on_datum     = current_date_datums.where("state =? and id >?" , "on" , dat.id).limit(1)
+
 					if next_on_datum.count == 0
 						next_on_datum   = Array[current_date_datums.last]
 					end
 
+					datum_chunk_range = current_date_datums.where("id>=? and id<?", dat.id, next_on_datum.first.id)
+
+					#loop here to see time diff of consecutive values
+					#if it is >3 then move pivot to that point
+					date_pivot = dat.timee
+
+					datum_chunk_range.each do |d_chunk|
+						d_chunk_diff = d_chunk.timee.minus_with_coercion(date_pivot)/60
+						if d_chunk_diff > 3
+							date_pivot = d_chunk.timee
+						end
+					end
+
 					if next_on_datum.count > 0
-						time_difference  	= next_on_datum.first.timee.minus_with_coercion(dat.timee)/60
+						time_difference  	= next_on_datum.first.timee.minus_with_coercion(date_pivot)/60
 						last_compared_id 	= next_on_datum.first.id
 
-						
 						if time_difference > date_maximum_cont_off_time || date_maximum_cont_off_time == -1
 							date_maximum_cont_off_time = time_difference
 						end
@@ -62,8 +76,19 @@ class Machine < ActiveRecord::Base
 						next_off_datum   = Array[current_date_datums.last]
 					end
 
+					datum_chunk_range = current_date_datums.where("id>=? and id<?", dat.id, next_off_datum.first.id)
+
+					date_pivot = dat.timee
+
+					datum_chunk_range.each do |d_chunk|
+						d_chunk_diff = d_chunk.timee.minus_with_coercion(date_pivot)/60
+						if d_chunk_diff > 3
+							date_pivot = d_chunk.timee
+						end
+					end
+
 					if next_off_datum.count > 0
-						time_difference  	= next_off_datum.first.timee.minus_with_coercion(dat.timee)/60
+						time_difference  	= next_off_datum.first.timee.minus_with_coercion(date_pivot)/60
 						last_compared_id 	= next_off_datum.first.id
 
 						if time_difference > date_maximum_cont_on_time || date_maximum_cont_on_time == -1
@@ -100,7 +125,7 @@ class Machine < ActiveRecord::Base
 		data_offtimes = data_offtimes.map { |k,v| [k.to_i,v] }
 	end
 
-	def fetch_data_from_excel(ws,current_user,current_user_machines)
+	def self.fetch_data_from_excel(ws,current_user,current_user_machines)
 		
 		starting_index = current_user.next_index_excel + 1
 		sheet_name     = current_user.sheet_name
@@ -195,5 +220,20 @@ class Machine < ActiveRecord::Base
 
 	def minimum_value_by_day(date)
 		 datums.where('datee=?', date).minimum(:numbere).to_f.round(2)
+	end
+
+	def total_uptime(date)
+
+		d = datums.where('numbere>=? AND datee=?',5,date).count
+		d = d.to_f/3600
+		d = d.round(2)
+	end
+
+	def total_monitored_time(date)
+		#debugger
+		d = datums.where('datee=?',date).count
+		d = d.to_f/3600
+		d = d.round(2)
+		#debugger
 	end
 end

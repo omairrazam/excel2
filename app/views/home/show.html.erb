@@ -12,9 +12,7 @@
 	<%= javascript_include_tag 'custom-highStock' %>
 <% end %>
 
-<!-- Container starts -->
-<div class="container">
-  <div class="row">
+
     <!-- Left Sidebar -->
     <!--***************-->
     <div class="col-md-2">
@@ -26,19 +24,22 @@
     <!-- Center Content -->
     <!--***************-->
     <div class="col-md-10">
+    <div class="row">
       <% if @current_machine.present? %>
-        <div class="pull-right">
+        <div >
           <%= form_tag ajax_info_box_update_path, :method => 'get' , :id => 'info_box_form', remote: true do %>
             <p>
-              <span>Pick date to find quick stats</span>
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;Pick date to find quick stats</span>
               <%= text_field_tag :date, @filter_date, id: 'info_box_datepicker' %>
               <%= hidden_field_tag "machine_id", @current_machine.id %>
               <%= submit_tag "Filter", :name => nil %>
             </p>
           <% end %>
+           <span class="pull-right"> Last Updated @ <%= time_ago_in_words(@current_machine.updated_at)  %>&nbsp;ago</span>
         </div>
-      <% end %>
 
+      <% end %>
+      </div>
       <!-- info box search filter -->
       <!-- ********************** -->
       <div id = "info_boxes"><%= render :partial => "info_boxes" %></div>
@@ -67,8 +68,7 @@
     </div> 
     <!--***************-->
     <!-- Center Content -->
-  </div>
-</div><!-- Container ends -->
+
 
 <br>
 <br>

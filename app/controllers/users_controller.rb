@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 		if !user_signed_in?
 			redirect_to new_user_session_path
 		else
-			redirect_to home_index_path
+			redirect_to home_path(1)
 		end
 	end
 

@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :machines
   after_create :create_machines
-  #validates :sheet_name, :presence => true
+  validates :sheet_name, :presence => true
 
   def create_machines
     create_machine("SHEL001")

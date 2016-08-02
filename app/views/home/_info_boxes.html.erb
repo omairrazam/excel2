@@ -1,21 +1,63 @@
 <%#= debugger %>
 <div id="info_data_processing" style="display:none;"><%= image_tag "processing.gif" %></div>
 <% if @current_machine.present?  %>
-  <div class="panel-group">
-    <div class="panel panel-default">
-      <div class="panel-heading">Statistics</div>
-        <div class="panel-body">
-          <div class="well col-md-2"><strong>Live:</strong><br><%= @current_machine.datums.last.numbere rescue '-'%></div>
-          <div class="well col-md-2"><strong>Efficiency:</strong><br><%= @day_efficiency rescue '-'  %> %</div>
-          <div class="well col-md-2"><strong>Total uptime:</strong><br><%= @offtime.present? ? distance_of_time_in_words(@offtime.try(:convert_to_ontime_in_seconds)) : '-'  %></div>
-          <div class="well col-md-2"><strong>Average Value:</strong><br><%= @current_machine.average_value_by_day(@filter_date) %></div>
-          <div class="well col-md-2"><strong>Maximum Value:</strong><br><%= @current_machine.maximum_value_by_day(@filter_date) %></div>
-          <div class="well col-md-2"><strong>Minimum Value:</strong><br><%= @current_machine.minimum_value_by_day(@filter_date) %></div>
-          <div class="well col-md-3"><strong>Max continuous off time:</strong><br><%= @offtime.present? ? distance_of_time_in_words(@offtime.try(:maximum_cont_off_time)*60) : "-"  %></div>
-          <div class="well col-md-3"><strong>Max continuous on time:</strong><br><%= @offtime.present? ? distance_of_time_in_words(@offtime.try(:maximum_cont_on_time)*60) : "-" %></div>
+   <ul class="thumbnails">
+                <li class="col-sm-3 manual-margin">      
+                  <div class="thumbnail">
+                    <strong>Live:</strong><center><p class="lbl-info blue"><%= @current_machine.datums.last.numbere rescue '-'%></p></center>
+                  </div>
+                  
+                </li>
 
-        </div>
-    </div>
-  </div>
+                <li class="col-sm-3 manual-margin">      
+                  <div class="thumbnail">
+                    <strong>Efficiency:</strong><center><p class="lbl-info green"><%= @day_efficiency rescue '-'  %> % </p></center>
+                  </div>
+                  
+                </li>
+
+                <li class="col-sm-3 manual-margin">      
+                  <div class="thumbnail">
+                    <strong>Total On Time:</strong><center><p class="lbl-info purple"><%= @current_machine.total_uptime(@date) %>hrs</p></center>
+                  </div>
+                 
+                </li>
+
+                <li class="col-sm-3 manual-margin">      
+                  <div class="thumbnail">
+                    <strong>Total Monitored Time:</strong><center><p class="lbl-info blue"><%= @current_machine.total_monitored_time(@date) %>hrs</p></center>
+                  </div>
+                </li>
+
+                 <li class="col-sm-3 manual-margin">      
+                  <div class="thumbnail">
+                    <strong>Average Value:</strong><center><p class="lbl-info blue"><%= @current_machine.average_value_by_day(@filter_date) %></p></center>
+                  </div>
+                </li>
+
+                 <li class="col-sm-3 manual-margin">      
+                  <div class="thumbnail">
+                    <strong>Maximum Value:</strong><center><p class="lbl-info green"><%= @current_machine.maximum_value_by_day(@filter_date) %></p></center>
+                  </div>
+                </li>
+
+                 <li class="col-sm-3 manual-margin">      
+                  <div class="thumbnail">
+                    <!-- <strong>Total Monitored Time:</strong><br><strong>Minimum Value:</strong><br><%= @current_machine.minimum_value_by_day(@filter_date) %> -->
+                    <strong>Max continuous on time:</strong><center><p class="lbl-info purple"><%= @offtime.present? ? @offtime.max_continuous_on_time : "-" %></p></center>
+                  </div>
+                </li>
+
+                 <li class="col-sm-3 manual-margin">      
+                  <div class="thumbnail">
+                    <strong>Max continuous off time:</strong><center><p class="lbl-info blue"><%= @offtime.present? ? @offtime.max_continuous_off_time : "-"  %></p></center>
+                  </div>
+                </li>
+              </ul>
+            
 <% end %>
+
+
+
+             
 

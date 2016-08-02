@@ -5,49 +5,36 @@ class HomeController < BaseController
     require 'csv'
 	require 'iconv'
 	
-    before_action :load_machines, only: [:index, :ajax_info_box_update]
+    before_action :load_machines, only: [:index, :ajax_info_box_update, :show]
    
-
 	def index
-		select_current_machine
-		#debugger
-		if @current_machine == nil
-			flash[:alert]  = 'Machine not present'
-		    return
-		else 
-			if current_user.sheet_name.present?
-				#debugger
-				PygmentsWorker.perform_in(1.minute,current_user.id)
-				# directory_name = Rails.root.to_s +  "/excelsheets"
-				# Dir.mkdir(directory_name) unless File.exists?(directory_name)
-				# session = GoogleDrive.saved_session("config.json")
-				# ws = session.spreadsheet_by_title(current_user.sheet_name).worksheets[0] rescue nil
-				# if ws.blank?
-				# 	flash[:alert]  = "Google Sheet of name '#{current_user.sheet_name}' doesn't exist on your drive."
-				# 	return
-				# end
+		# @current_machine = @machines.first
+		# #PygmentsWorker.perform_in(1.minute,1)
+		# #debugger
+		# if @current_machine == nil
+		# 	flash[:alert]  = 'Machine not present'
+		#     return
+		# else 
+		# 	if current_user.sheet_name.blank?
+		# 		flash[:alert]  = 'Sheet name missing'
+		# 		return
+		# 	end
+		# end
+		
+		# if  !@current_machine.has_data
+		# 	flash.now[:notice] = 'No Data Found...'
+		#     return
+		# end
 
-				# @current_machine.fetch_data_from_excel(ws, current_user, @machines)
-			else
-				flash[:alert]  = 'Sheet name missing'
-				return
-			end
-		end
+		# @data_json = @current_machine.getdata_for_graph
 		
-		if  !@current_machine.has_data
-			flash.now[:notice] = 'No Data Found...'
-		    return
-		end
-
-		@data_json = @current_machine.getdata_for_graph
-		
-		@data_offtimes = @current_machine.getofftimes_for_graph
+		# @data_offtimes = @current_machine.getofftimes_for_graph
 		
 		
-		respond_to do |format|
-		  format.html 
-		  #format.js 
-		end
+		# respond_to do |format|
+		#   format.html 
+		#   #format.js 
+		# end
 	end
 
 	def ajax_info_box_update
@@ -68,19 +55,46 @@ class HomeController < BaseController
 		end
 	end
 
+	def show
+
+		select_current_machine
+		#PygmentsWorker.perform_in(1.minute,1)
+		#debugger
+		if @current_machine == nil
+			flash[:alert]  = 'Machine not present'
+		    return
+		else 
+			if current_user.sheet_name.blank?
+				flash[:alert]  = 'Sheet name missing'
+				return
+			end
+		end
+		
+		if  !@current_machine.has_data
+			flash.now[:notice] = 'No Data Found...'
+		    return
+		end
+
+		@data_json = @current_machine.getdata_for_graph
+		
+		@data_offtimes = @current_machine.getofftimes_for_graph
+		
+		#render "/home/index"
+	end
+
 	private
 	
 	def select_current_machine
-		if params[:machine].present?
-			if params[:machine].to_i    == 1
+		if params[:id].present?
+			if params[:id].to_i    == 1
 				@current_machine = @machines.first
-			elsif params[:machine].to_i == 2
+			elsif params[:id].to_i == 2
 				@current_machine = @machines.second
-			elsif params[:machine].to_i == 3
+			elsif params[:id].to_i == 3
 				@current_machine = @machines.third
-			elsif params[:machine].to_i == 4
+			elsif params[:id].to_i == 4
 				@current_machine = @machines.fourth
-			elsif params[:machine].to_i == 5
+			elsif params[:id].to_i == 5
 				@current_machine = @machines.fifth
 			end
 		else

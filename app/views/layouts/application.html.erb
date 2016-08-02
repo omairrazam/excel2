@@ -5,9 +5,14 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false%>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
   <%= csrf_meta_tags %>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
    <%= yield :head %>
 </head>
-<body>
+<body >
+<% if !user_signed_in? %>
+	<div class="main-bg-img"></div>
+<% end %>
+<div class="col-md-8 col-md-offset-2">
  <% if notice.present? %> 
     <div  id="login-alert" class="alert alert-info col-sm-12">
       <p><%= notice %></p>
@@ -18,7 +23,19 @@
       <p ><%= alert %></p>
     </div>
   <% end %>
+
+</div>
+
 <% if user_signed_in? %>
+
+
+
+
+<div class="container-fluid">
+      <div class="row">
+   
+
+<!-- 
 	<nav class="navbar navbar-fixed-top navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
@@ -44,10 +61,20 @@
 			  </ul>
 			</div><!-- /.nav-collapse -->
 		</div><!-- /.container -->
-	</nav><!-- /.navbar -->
+	</nav><!-- /.navbar --> 
 <% end %>
-
-<%= yield %>
-
+		<br>
+		<br>
+       <%= yield %>
+	</div>
+ </div>
 </body>
 </html>
+
+
+
+
+
+
+ 
+
