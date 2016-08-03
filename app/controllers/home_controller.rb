@@ -58,7 +58,7 @@ class HomeController < BaseController
 	def show
 
 		select_current_machine
-		PygmentsWorker.perform_in(1)
+		PygmentsWorker.perform_in(1,1)
 		#debugger
 		if @current_machine == nil
 			flash[:alert]  = 'Machine not present'
