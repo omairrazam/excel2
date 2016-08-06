@@ -30,6 +30,11 @@ class Machine < ActiveRecord::Base
 			current_date_datums = self.datums.all.where("datee=?",date).order('timestampe asc')
 			last_compared_id    = -1
 			current_date_datums.each_with_index {|dat,index|
+					
+				if(dat.timestampe.to_i == 1469195040000)
+					#debugger
+				end
+				#
 				#debugger
 				# if machine is off?
 					# ask it to caculate its off time and return last datum timestamp and time
@@ -47,60 +52,85 @@ class Machine < ActiveRecord::Base
 						next_on_datum   = Array[current_date_datums.last]
 					end
 
-					datum_chunk_range = current_date_datums.where("id>? and id<?", dat.id, next_on_datum.first.id)
+					datum_chunk_range = current_date_datums.where("id>? and id<=?", dat.id, next_on_datum.first.id)
 
 					#loop here to see time diff of consecutive values
 					#if it is >3 then move pivot to that point
 					date_pivot = dat.timestampe.to_i
 					last_value = date_pivot
+					
+						datum_chunk_range.each do |d_chunk|
+							#debugger
+							d_chunk_diff = (d_chunk.timestampe.to_i - last_value)/60000
+							
 
-					datum_chunk_range.each do |d_chunk|
-						#debugger
-						d_chunk_diff = (d_chunk.timestampe.to_i - last_value)/60000
-						last_value = d_chunk.timestampe.to_i
+							if d_chunk_diff > 3
+								d = last_value - date_pivot
+								d = d/60000 #in minutes
+								if d > date_maximum_cont_off_time 
+									date_maximum_cont_off_time = d
+								end
 
-						if d_chunk_diff > 3
-							date_pivot = d_chunk.timestampe.to_i
+								date_offtime = date_offtime + d
+
+								date_pivot = d_chunk.timestampe.to_i
+								d = 0
+							end
+
+							last_value = d_chunk.timestampe.to_i
 						end
-					end
+					
 
 					if next_on_datum.count > 0
 						time_difference  	= (next_on_datum.first.timestampe.to_i - date_pivot)/60000
 						last_compared_id 	= next_on_datum.first.id
 
-						if time_difference > date_maximum_cont_off_time || date_maximum_cont_off_time == -1
-							date_maximum_cont_off_time = time_difference
-						end
+						 if time_difference > date_maximum_cont_off_time || date_maximum_cont_off_time == -1
+						 	date_maximum_cont_off_time = time_difference
+						 end
 
 						date_offtime = date_offtime + time_difference
 					end
 				elsif dat.state == "on"
+
 					next_off_datum   = current_date_datums.where("state =? and id >?" , "off" , dat.id).limit(1)
 					
 					if next_off_datum.count == 0
 						next_off_datum   = Array[current_date_datums.last]
 					end
 
-					datum_chunk_range = current_date_datums.where("id>=? and id<?", dat.id, next_off_datum.first.id)
+					 datum_chunk_range = current_date_datums.where("id>? and id<=?", dat.id, next_off_datum.first.id)
 
 					date_pivot = dat.timestampe.to_i
 					last_value = date_pivot
 
-					datum_chunk_range.each do |d_chunk|
-						d_chunk_diff = (d_chunk.timestampe.to_i - last_value)/60000
-						last_value    = d_chunk.timestampe.to_i
-						if d_chunk_diff > 3
-							date_pivot = d_chunk.timestampe.to_i
+					
+						datum_chunk_range.each do |d_chunk|
+							d_chunk_diff = (d_chunk.timestampe.to_i - last_value)/60000
+							
+							if d_chunk_diff > 3
+
+								d = last_value - date_pivot
+								d = d/60000
+
+								if d > date_maximum_cont_on_time 
+									date_maximum_cont_on_time = d
+								end
+
+								date_pivot = d_chunk.timestampe.to_i
+								d = 0
+							end
+							last_value    = d_chunk.timestampe.to_i
 						end
-					end
+				
 
 					if next_off_datum.count > 0
-						time_difference  	= (next_off_datum.first.timestampe.to_i - date_pivot)/60000
+						 time_difference  	= (next_off_datum.first.timestampe.to_i - date_pivot)/60000
 						last_compared_id 	= next_off_datum.first.id
 
-						if time_difference > date_maximum_cont_on_time || date_maximum_cont_on_time == -1
-							date_maximum_cont_on_time = time_difference
-						end
+						 if time_difference > date_maximum_cont_on_time || date_maximum_cont_on_time == -1
+						 	date_maximum_cont_on_time = time_difference
+						 end
 					else
 						#find difference till last time.
 					end
