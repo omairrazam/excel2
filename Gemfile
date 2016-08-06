@@ -67,7 +67,8 @@ group :development do
     gem 'capistrano-bundler', require: false
     gem 'capistrano3-puma',   require: false
 end
-gem 'net-ssh', '~> 2.7.0'
+#gem 'net-ssh', '~> 2.7.0'
+gem 'sshkit', github: 'capistrano/sshkit'
 gem 'puma'
 gem 'sidekiq'
 gem 'sinatra', require: false

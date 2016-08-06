@@ -16,5 +16,8 @@ class ApplicationController < ActionController::Base
   rescue_from SecurityError do |exception|
     redirect_to root_path , flash: {notice: "Access Denied"}
   end
- 
+  
+  def after_sign_in_path_for(resource)
+    PygmentsWorker.perform_async(1)
+  end
 end
