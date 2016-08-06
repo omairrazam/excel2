@@ -19,5 +19,6 @@ class ApplicationController < ActionController::Base
   
   def after_sign_in_path_for(resource)
     PygmentsWorker.perform_async(1)
+    root_path
   end
 end
