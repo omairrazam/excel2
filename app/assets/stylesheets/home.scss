@@ -9,7 +9,13 @@ body {
 }
 
 .main-bg-img{
-  background-image: image-url("bg1.png");
+ 
+  background: image-url("bg1.png") fixed;
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+
+
   -webkit-filter: blur(5px);
   -moz-filter: blur(5px);
   -o-filter: blur(5px);
@@ -178,3 +184,48 @@ ul.thumbnails {
 .purple{
   color:rgb(177,134,183)
 }
+
+.btn-info {
+    color: #fff;
+    background-color: rgb(40,180,188);
+    border-color: rgba(51,116,183,0);
+}
+
+p.form-title {
+    color: rgb(40,180,188) !important;
+}
+
+
+
+form.login input[type="text"], form.login input[type="password"] , form.login input[type="email"] {
+    width: 100%;
+    margin: 0;
+    padding: 5px 10px;
+    background: 0;
+    border: 0;
+    border-bottom: 1px solid GREEN !important;
+    color: grey !important;
+    text-align:center;
+    outline: 0;
+    font-style: italic;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    
+    outline: 0;
+}
+
+/* hide graph footer */
+.highcharts-tooltip + text{
+  display: none;
+} 
+
+#info_data_processing{
+  position:absolute;
+  left:45%;
+  top:10%;
+  z-index:1;
+  background-color:white;
+}
+

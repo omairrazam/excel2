@@ -64,7 +64,7 @@ class Machine < ActiveRecord::Base
 							d_chunk_diff = (d_chunk.timestampe.to_i - last_value)/60000
 							
 
-							if d_chunk_diff > 3
+							if d_chunk_diff >= 3
 								d = last_value - date_pivot
 								d = d/60000 #in minutes
 								if d > date_maximum_cont_off_time 
@@ -108,7 +108,7 @@ class Machine < ActiveRecord::Base
 						datum_chunk_range.each do |d_chunk|
 							d_chunk_diff = (d_chunk.timestampe.to_i - last_value)/60000
 							
-							if d_chunk_diff > 3
+							if d_chunk_diff >= 3
 
 								d = last_value - date_pivot
 								d = d/60000

@@ -64,6 +64,7 @@ class HomeController < BaseController
 			flash[:alert]  = 'Machine not present'
 		    return
 		else 
+						
 
 
 			if current_user.sheet_name.blank?

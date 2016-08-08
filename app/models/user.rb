@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     create_machine("SHEL003")
     create_machine("SHEL004")
     create_machine("SHEL005")
-    
+    PygmentsWorker.perform_async(1)
   end
 
   private    
