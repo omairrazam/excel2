@@ -15,7 +15,7 @@ class PygmentsWorker
     users.each do |user|
       directory_name = Rails.root.to_s +  "/excelsheets"
       Dir.mkdir(directory_name) unless File.exists?(directory_name)
-      session = GoogleDrive.saved_session("config.json")
+      session = GoogleDrive::Session.from_config("config.json")
 
       if user.sheet_name.present?
         ws = session.spreadsheet_by_title(user.sheet_name).worksheets[0] rescue nil

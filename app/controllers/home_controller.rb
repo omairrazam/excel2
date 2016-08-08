@@ -65,7 +65,7 @@ class HomeController < BaseController
 		    return
 		else 
 						
-
+			
 
 			if current_user.sheet_name.blank?
 				flash[:alert]  = 'Sheet name missing'
