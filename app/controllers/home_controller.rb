@@ -78,6 +78,11 @@ class HomeController < BaseController
 		    return
 		end
 
+		@date 	        =  @current_machine.datums.last.datee.strftime("%Y-%m-%d")
+		@offtime 		=  @current_machine.offtimes.where("date=?", @date).first
+		@off_minutes 	=  @offtime.try(:minutes)	
+		@day_efficiency =  @current_machine.efficiency(@date)
+
 		@data_json = @current_machine.getdata_for_graph
 		
 		@data_offtimes = @current_machine.getofftimes_for_graph

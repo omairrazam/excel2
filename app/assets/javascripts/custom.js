@@ -12,11 +12,12 @@ $(function(){
    // $( "#datepicker" ).datepicker();
     //$( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 
-    $("#info_box_datepicker").datepicker({
+    var $datepicker = $('#info_box_datepicker');
+    $datepicker.datepicker({
 		format: 'yy-mm-dd',
 	}).on("show", function() {
 		$(this).val("2012-01-02").datepicker('update');
 	});
-
-	
+    //$datepicker.datepicker('setDate', last_date);
+   
 });

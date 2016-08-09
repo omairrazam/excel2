@@ -4,7 +4,7 @@
 //   var offtimes = <%= @data_offtimes %>
 //   var info_box_datepicker_value = <%= @filter_date %>
 //    });
-  
+
 </script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.css">
@@ -33,8 +33,11 @@
               <%= text_field_tag :date, @filter_date, id: 'info_box_datepicker' %>
               <%= hidden_field_tag "machine_id", @current_machine.id %>
               <%= submit_tag "Filter", :name => nil %>
+
             </p>
+
           <% end %>
+            <p class = "pull-left">&nbsp;&nbsp;&nbsp;Last Date  : (<%= @date %>)</p>
            <span class="pull-right"> Last Updated @ <%= time_ago_in_words(@current_machine.updated_at)  %>&nbsp;ago</span>
         </div>
 
