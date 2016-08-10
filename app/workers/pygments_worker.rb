@@ -11,8 +11,12 @@ class PygmentsWorker
   end
 
   def perform(id)
+    puts "tracker in start of perform method @#{Time.now}"
     users = User.all
     users.each do |user|
+      puts "---------------------------------------------------------------------------------"
+      puts "tracker inside async users loop @#{Time.now}"
+      puts "---------------------------------------------------------------------------------"
       directory_name = Rails.root.to_s +  "/excelsheets"
       Dir.mkdir(directory_name) unless File.exists?(directory_name)
       session = GoogleDrive::Session.from_config("config.json")
@@ -22,6 +26,9 @@ class PygmentsWorker
         user_machines = user.machines
 
         if user_machines.present? and ws.present?
+          puts "---------------------------------------------------------------------------------"
+           puts "tracker before fetching data from excel @#{Time.now}"
+          puts "---------------------------------------------------------------------------------"
           Machine.fetch_data_from_excel(ws, user, user_machines)
           user_machines.each do|machine|
             machine.update_offtimes
@@ -30,7 +37,9 @@ class PygmentsWorker
         end
 
       end
-
     end
+    puts "---------------------------------------------------------------------------------"
+     puts "tracker in end of perform method @#{Time.now}"
+    puts "---------------------------------------------------------------------------------"
   end
 end

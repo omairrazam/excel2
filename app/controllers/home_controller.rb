@@ -56,17 +56,19 @@ class HomeController < BaseController
 	end
 
 	def show
-
+		puts "---------------------------------------------------------------------------------"
+		puts "tracker at start of show method @#{Time.now}"
+		puts "---------------------------------------------------------------------------------"
 		select_current_machine
 		PygmentsWorker.perform_async(1)
+		puts "---------------------------------------------------------------------------------"
+		puts "tracker just after async call @#{Time.now}"
+		puts "---------------------------------------------------------------------------------"
 		#debugger
 		if @current_machine == nil
 			flash[:alert]  = 'Machine not present'
 		    return
 		else 
-						
-			
-
 			if current_user.sheet_name.blank?
 				flash[:alert]  = 'Sheet name missing'
 				return
@@ -77,6 +79,9 @@ class HomeController < BaseController
 			flash.now[:notice] = 'No Data Found...'
 		    return
 		end
+		puts "---------------------------------------------------------------------------------"
+		puts "tracker in middle of method @#{Time.now}"
+		puts "---------------------------------------------------------------------------------"
 
 		@date 	        =  @current_machine.datums.last.datee.strftime("%Y-%m-%d")
 		@offtime 		=  @current_machine.offtimes.where("date=?", @date).first
@@ -86,7 +91,10 @@ class HomeController < BaseController
 		@data_json = @current_machine.getdata_for_graph
 		
 		@data_offtimes = @current_machine.getofftimes_for_graph
-		
+
+		puts "---------------------------------------------------------------------------------"
+		puts "tracker in end of method @#{Time.now}"
+		puts "---------------------------------------------------------------------------------"
 		#render "/home/index"
 	end
 
