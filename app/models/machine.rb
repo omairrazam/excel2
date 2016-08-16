@@ -203,7 +203,7 @@ class Machine < ActiveRecord::Base
 			timestamp    = timestamp.to_datetime.beginning_of_minute.strftime('%s').to_i * 1000
 			d.timestampe = timestamp
 			
-			if d.numbere <= 5
+			if d.numbere < 10
 					d.state = "off"
 			else
 					d.state = "on"
