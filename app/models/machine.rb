@@ -3,6 +3,12 @@ class Machine < ActiveRecord::Base
 	belongs_to :user
 	has_many   :datums , dependent: :destroy
 	has_many   :offtimes , dependent: :destroy
+	validates  :name, presence: true
+	validates  :sheetname, presence: true
+	validates  :threshold, presence: true
+	validates  :data_type, presence: true
+	validates  :next_index_excel, presence: true
+	after_create :load_data_async
 
 	def update_offtimes
 		if self.datums.count == 0
@@ -162,13 +168,12 @@ class Machine < ActiveRecord::Base
 		data_offtimes = data_offtimes.map { |k,v| [k.to_i,v] }
 	end
 
-	def self.fetch_data_from_excel(ws,current_user,current_user_machines)
+	def fetch_data_from_excel(ws,current_user)
 		
-		starting_index = current_user.next_index_excel + 1
-		sheet_name     = current_user.sheet_name
-		ws.export_as_file(Rails.root.to_s +  "/excelsheets/#{sheet_name}.csv")
-
-		data_file = Roo::CSV.new(Rails.root.to_s + "/excelsheets/#{sheet_name}.csv")
+		starting_index = self.next_index_excel
+		sheet_name     = self.sheetname
+		ws.export_as_file(Rails.root.to_s +  "/excelsheets/current_user.id/#{sheet_name}.csv")
+		data_file = Roo::CSV.new(Rails.root.to_s + "/excelsheets/current_user.id/#{sheet_name}.csv")
 	   
 		#debugger
 	    if starting_index >= data_file.last_row
@@ -176,17 +181,17 @@ class Machine < ActiveRecord::Base
 		end
 
 		last_date_visited = "2000-01-01".to_datetime.strftime('%s').to_i * 1000
-		last_row 		  = data_file.last_row
+		last_row 		  =  data_file.last_row
 
 	  	Datum.transaction do
 		    header = data_file.row(1)
 			(starting_index..last_row).each do |i|
 
 			row = Hash[[header, data_file.row(i)].transpose]
-			current_machine = current_user_machines.find{|m|m.name == row["ID"]}
-			if current_machine.blank?
-				next
-			end
+			#current_machine = current_user_machines.find{|m|m.name == row["ID"]}
+			#if current_machine.blank?
+			#	next
+			#end
 
 			d 			 = Datum.new
 			d.timee 	 = row["Time"]
@@ -196,14 +201,14 @@ class Machine < ActiveRecord::Base
 			d.timestampe = row["Timestamp"]
 			#debugger
 
-			d.machine_id    = current_machine.id
+			d.machine_id    = self.id
 			d.timee 		= d.timee.beginning_of_minute
 
 			timestamp    = row["Date"]+' '+ row["Time"]
 			timestamp    = timestamp.to_datetime.beginning_of_minute.strftime('%s').to_i * 1000
 			d.timestampe = timestamp
 			
-			if d.numbere < 10
+			if d.numbere < self.threshold
 					d.state = "off"
 			else
 					d.state = "on"
@@ -218,8 +223,8 @@ class Machine < ActiveRecord::Base
 			end
 		end
 		#update the next index to be used next time
-		current_user.next_index_excel = last_row
-		current_user.save!
+		self.next_index_excel = last_row
+		self.save!
 
 	end
 
@@ -277,5 +282,9 @@ class Machine < ActiveRecord::Base
 		hrs  = d / 60
 		mins = d % 60
 		final = hrs.to_s + "h " + mins.to_s + "m"
+	end
+
+	def load_data_async
+		PygmentsWorker.perform_async(1)
 	end
 end

@@ -56,6 +56,7 @@ class HomeController < BaseController
 	end
 
 	def show
+		
 		select_current_machine
 		#PygmentsWorker.perform_async(1)
 		#debugger

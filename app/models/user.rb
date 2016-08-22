@@ -7,15 +7,9 @@ class User < ActiveRecord::Base
   has_many :machines
   after_create :create_machines
   validates :sheet_name, :presence => true
+  validates :username, :presence => true
 
-  def create_machines
-    create_machine("SHEL001")
-    create_machine("SHEL002")
-    create_machine("SHEL003")
-    create_machine("SHEL004")
-    create_machine("SHEL005")
-    PygmentsWorker.perform_async(1)
-  end
+ 
 
   private    
 	def password_required?

@@ -12,11 +12,13 @@ ActiveAdmin.register User do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
+  filter :email
 
-  permit_params :email, :password, :is_admin, :sheet_name
+  permit_params :email,:username, :password, :is_admin, :sheet_name
   index do
     selectable_column
     column :email
+    column :username
     column :current_sign_in_at
     column :last_sign_in_at
     column :sign_in_count
@@ -29,6 +31,7 @@ ActiveAdmin.register User do
   form do |f|
     f.inputs "Admin Details" do
       f.input :email
+      f.input :username
       f.input :password
       f.input :is_admin
       f.input :sheet_name
@@ -41,6 +44,12 @@ ActiveAdmin.register User do
   end
   controller do
     
+  end
+
+  sidebar "Machine Details", only: [:show, :edit] do
+    ul do
+      li link_to "Machines",    admin_user_machines_path(user)
+    end
   end
   
 end
