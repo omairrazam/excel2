@@ -14,14 +14,14 @@ class Offtime < ActiveRecord::Base
 	end
 
 	def max_continuous_off_time
-		hrs  = maximum_cont_off_time / 60
-		mins = maximum_cont_off_time % 60
+		hrs   = maximum_cont_off_time / 60
+		mins  = maximum_cont_off_time % 60
 		final = hrs.to_s + "h " + mins.to_s + "m"
 	end
 
 	def max_continuous_on_time
-		hrs  = maximum_cont_on_time / 60
-		mins = maximum_cont_on_time % 60
+		hrs   = maximum_cont_on_time / 60
+		mins  = maximum_cont_on_time % 60
 		final = hrs.to_s + "h " + mins.to_s + "m"
 	end
 end

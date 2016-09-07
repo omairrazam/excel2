@@ -12,21 +12,21 @@ class PygmentsWorker
 
   def perform(id)
 
-    puts "tracker in start of perform method @#{Time.now}"
+    
     users = User.all
     users.each do |user|
+      SensorMailer.sample_email(user).deliver
+      ########working format
+      # directory_name = Rails.root.to_s +  "/excelsheets/#{user.id}"
+      # Dir.mkdir(directory_name) unless File.exists?(directory_name)
+      # session = GoogleDrive::Session.from_config("config.json")
       
-      directory_name = Rails.root.to_s +  "/excelsheets/#{user.id}"
-      Dir.mkdir(directory_name) unless File.exists?(directory_name)
-      session = GoogleDrive::Session.from_config("config.json")
-      
-      
-      user.machines.each do |m|
-        ws = session.spreadsheet_by_title(m.sheetname).worksheets[0] rescue nil
-        m.fetch_data_from_excel(ws,user)
-        m.update_offtimes
-        m.touch
-      end
+      # user.machines.each do |m|
+      #   ws = session.spreadsheet_by_title(m.sheetname).worksheets[0] rescue nil
+      #   m.fetch_data_from_excel(ws,user)
+      #   m.update_offtimes
+      #   m.touch
+      # end
 
       ######## old ###############
       # if user.sheet_name.present?

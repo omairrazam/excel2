@@ -27,5 +27,8 @@ form do |f|
     f.actions
 end  
 
- 
+after_create do |m|
+	m.fetch_data_from_excel
+end
+
 end

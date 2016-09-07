@@ -14,7 +14,8 @@ ActiveAdmin.register User do
 # end
   filter :email
 
-  permit_params :email,:username, :password, :is_admin, :sheet_name
+  permit_params :email,:username, :password, :is_admin, :sheet_name,:send_reports
+
   index do
     selectable_column
     column :email
@@ -22,11 +23,9 @@ ActiveAdmin.register User do
     column :current_sign_in_at
     column :last_sign_in_at
     column :sign_in_count
-    column :sheet_name
+    column :send_reports
     actions
   end
-
-
 
   form do |f|
     f.inputs "Admin Details" do
@@ -34,13 +33,13 @@ ActiveAdmin.register User do
       f.input :username
       f.input :password
       f.input :is_admin
-      f.input :sheet_name
+      f.input :send_reports
     end
     f.actions
   end  
 
   show do
-    attributes_table :email, :is_admin, :sheet_name
+    attributes_table :email, :is_admin, :sheet_name,:send_reports
   end
   controller do
     

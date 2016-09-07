@@ -5,7 +5,8 @@
 
 $(function() {
   //alert(json[0][0])
-   
+      var machineName = "<%==  escape_javascript @current_machine.name if @current_machine%>";
+      var machineType = "<%==  escape_javascript @current_machine.data_type if @current_machine%>";
         // Create the chart
         window.chart = new Highcharts.StockChart({
             chart : {
@@ -45,7 +46,7 @@ $(function() {
              yAxis: {
               opposite: false,
               title: {
-                  text: 'Current',
+                  text: machineType,
                   style: {
                   color: '#333333',
                   font: '16px Arial',
@@ -108,7 +109,7 @@ $(function() {
 
             series : [{
               pointStart:Date.UTC(2015,9,27),
-                name : 'Machine1',
+                name : name,
                 data : <%= @data_json %>,
                 color: '#008080',
                 tooltip: {

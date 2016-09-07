@@ -1,67 +1,20 @@
-<!-- <div class="panel panel-default">
-  <div class="panel-heading">Select your machine</div>
-  <div class="panel-body">
-    <div class="row">
-      <%= form_tag home_index_path, :method => 'get' , :id => 'machine_form' do %>
-        <div class="switch-field">
-          <%= radio_button_tag 'machine', '1',params[:machine] == nil || params[:machine] == '1' ? true : false%>
-          <label for="machine_1">One</label>
-          <%= radio_button_tag 'machine', '2',params[:machine] == '2' ? true : false %>
-          <label for="machine_2">Two</label>
-          <%= radio_button_tag 'machine', '3',params[:machine] == '3' ? true : false %>
-          <label for="machine_3">Third</label>
-           <%= radio_button_tag 'machine', '4',params[:machine] == '4' ? true : false %>
-          <label for="machine_4">Fourth</label>
-           <%= radio_button_tag 'machine', '5',params[:machine] == '5' ? true : false %>
-          <label for="machine_5">Fifth</label>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
- -->
 
-<!-- 
-<%= form_tag home_index_path, :method => 'get' , :id => 'machine_form' do %>
-        <div class="switch-field">
-          <%= radio_button_tag 'machine', '1',params[:machine] == nil || params[:machine] == '1' ? true : false%>
-          <label for="machine_1">One</label>
-          <%= radio_button_tag 'machine', '2',params[:machine] == '2' ? true : false %>
-          <label for="machine_2">Two</label>
-          <%= radio_button_tag 'machine', '3',params[:machine] == '3' ? true : false %>
-          <label for="machine_3">Third</label>
-           <%= radio_button_tag 'machine', '4',params[:machine] == '4' ? true : false %>
-          <label for="machine_4">Fourth</label>
-           <%= radio_button_tag 'machine', '5',params[:machine] == '5' ? true : false %>
-          <label for="machine_5">Fifth</label>
-        </div>
-      <% end %> -->
 
 <div class="col-sm-3 col-md-2 sidebar">
-          <div ><h2>Sensordata</h2><span>
-            <% if user_signed_in? %>
-              <%= link_to "MyAccount",user_path(current_user),class: "label label-info" %>&nbsp;|&nbsp;</span><span>
-              <%= link_to "Log out", destroy_user_session_path,class: "label label-info", :method => :delete %></span>
-            <% end %>
-          </div>
-          <hr>
-          <ul class="nav nav-sidebar">
-           
-           <li class = <%= nav_class(home_path(1))%>><%= link_to  home_path(1), class: "" do %>
-              <i class="fa fa-bar-chart" ></i> Machine1
-            <% end %></li>
-            <li class = <%= nav_class(home_path(2))%>><%= link_to  home_path(2), class: "" do %>
-              <i class="fa fa-industry" ></i> Machine2
-            <% end %></li>
-            <li class = <%= nav_class(home_path(3))%>><%= link_to  home_path(3), class: "" do %>
-              <i class="fa fa-bar-chart" ></i> Machine3
-            <% end %></li>
-            <li class = <%= nav_class(home_path(4))%>><%= link_to  home_path(4), class: "" do %>
-              <i class="fa fa-industry" ></i> Machine4
-            <% end %></li>
-            <li class = <%= nav_class(home_path(5))%>><%= link_to  home_path(5), class: "" do %>
-              <i class="fa fa-bar-chart" ></i> Machine5
-            <% end %></li>
-            
-          </ul>
+  <div ><h2>Sensordata</h2><span>
+    <% if user_signed_in? %>
+      <%= link_to "MyAccount",user_path(current_user),class: "label label-info" %>&nbsp;|&nbsp;</span><span>
+      <%= link_to "Log out", destroy_user_session_path,class: "label label-info", :method => :delete %></span>
+    <% end %>
+  </div>
+  <hr>
+  <ul class="nav nav-sidebar">
+   <% current_user.machines.each do |m| %>
+     <li class = <%= nav_class(home_path(m.id))%>>
+      <%= link_to  home_path(m.id), class: "" do %>
+        <i class="fa fa-bar-chart" ></i> <%= m.name %>
+      <% end %>
+     </li>
+   <% end %>
+  </ul>
 </div>

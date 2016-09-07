@@ -3,7 +3,12 @@ class UsersController < ApplicationController
 		if !user_signed_in?
 			redirect_to new_user_session_path
 		else
-			redirect_to home_path(1)
+			if current_user.machines.present?
+				redirect_to home_path(current_user.machines.first.id)
+			else
+				redirect_to home_path(-1)
+			end
+			
 		end
 	end
 

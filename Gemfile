@@ -51,7 +51,7 @@ gem 'roo', '~> 2.4.0'
 gem 'certified', '~> 1.0'
 gem 'devise', '~> 4.0', '>= 4.0.3'
 gem 'bootstrap-sass', '~> 3.3.6'
-gem 'activerecord-import', '~> 0.4.0'
+#gem 'activerecord-import', '~> 0.4.0'
 gem 'google_drive'
 gem 'google-api-client', '0.9'
 gem "iconv", "~> 1.0.3"
@@ -76,5 +76,5 @@ gem 'slim'
 
 gem 'capistrano-sidekiq' , group: :development
 gem 'sidetiq', '~> 0.7.0'
-
+gem "activerecord-import"
 #gem 'gdata_19', '1.1.5'

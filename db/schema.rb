@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160818112315) do
+ActiveRecord::Schema.define(version: 20160906204305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20160818112315) do
     t.date     "datee"
     t.string   "state"
     t.string   "timestampe"
+    t.float    "gradient"
   end
 
   add_index "data", ["machine_id"], name: "index_data_on_machine_id", using: :btree
@@ -88,6 +89,7 @@ ActiveRecord::Schema.define(version: 20160818112315) do
     t.boolean  "is_admin"
     t.integer  "next_index_excel",       default: 2
     t.string   "username"
+    t.boolean  "send_reports",           default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -2,11 +2,52 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
-    <h1>Hi SendorDataIn</h1>
-    <p>
-      Sample mail sent using smtp.
-    </p>
+  <div class="container">
+  <h1><%= @user.username.capitalize %>'s Data </h1>
+  <hr>
+  <% @user.machines.each do |m| %>
+  	<div class="panel panel-default col-md-6" style="padding:0px !important;">
+	   	<div class="panel-heading"><%= m.name.capitalize %>'s Data </div>
+	   	<% offtime = m.offtimes.where("date=?", @date).first%>
+	   	<div class="panel-body ">
+	   		
+	   		<table class="table table-striped">
+		    <tbody>
+		    <col width="20">
+  			<col width="80">
+		      <tr>
+		        <td><strong>Total On Time:</strong></td>
+		        <td><%= m.total_uptime(@date)%></td>
+		        
+		      </tr>
+		      <tr>
+		        <td><strong>Total Monitored Time:</strong></td>
+		        <td><%= m.total_monitored_time(@date)%></td>
+		      </tr>
+		      <tr>
+		        <td><strong>Efficiency:</strong></td>
+		        <td><%= m.efficiency(@date)%></td>
+		      </tr>
+		      <tr>
+		        <td><strong>Max Continuous On Time:</strong></td>
+		        <td><%= offtime.max_continuous_on_time if offtime%></td>
+		      </tr>
+		      <tr>
+		        <td><strong>Max Continuous Off Time:</strong></td>
+		        <td><%= offtime.max_continuous_off_time if offtime%></td>
+		      </tr>
+		    </tbody>
+		  </table>
+
+	   	</div>
+    </div>
+  <% end %>
+   </div>
   </body>
 </html>
+
+
+

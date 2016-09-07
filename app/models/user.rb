@@ -5,11 +5,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :machines
-  after_create :create_machines
-  validates :sheet_name, :presence => true
+  #after_create :create_machines
+  #validates :sheet_name, :presence => true
   validates :username, :presence => true
-
- 
 
   private    
 	def password_required?
@@ -17,7 +15,7 @@ class User < ActiveRecord::Base
 	end 
 
   def create_machine(machine_name)   
-    m1 = self.machines.build
+    m1      = self.machines.build
     m1.name = machine_name
     m1.save
   end 

@@ -3,6 +3,19 @@
  */
 
 /* Move down content because we have a fixed navbar that is 50px tall */
+
+@font-face {
+  font-family: "Kaushan Script Regular";
+  src: url(/assets/KaushanScript-Regular.otf) format("truetype");
+}
+
+@font-face {
+  font-family: 'MankSans';
+  src:  url(font_path('MankSans.ttf'))  format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   padding-top: 0px;
   
@@ -227,4 +240,5 @@ form.login input[type="text"], form.login input[type="password"] , form.login in
   z-index:1;
   background-color:white;
 }
+
 
