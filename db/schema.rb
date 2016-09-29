@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906204305) do
+ActiveRecord::Schema.define(version: 20160929035041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,11 @@ ActiveRecord::Schema.define(version: 20160906204305) do
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "counter_machines", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "data", force: :cascade do |t|
     t.time     "timee"
@@ -55,6 +60,8 @@ ActiveRecord::Schema.define(version: 20160906204305) do
     t.string   "sheetname"
     t.string   "data_type"
     t.integer  "next_index_excel"
+    t.integer  "actable_id"
+    t.string   "actable_type"
   end
 
   create_table "offtimes", force: :cascade do |t|
@@ -67,6 +74,39 @@ ActiveRecord::Schema.define(version: 20160906204305) do
     t.integer  "maximum_cont_off_time"
     t.string   "timestampe"
     t.float    "efficiency"
+  end
+
+  create_table "raw_data", force: :cascade do |t|
+    t.date     "date"
+    t.time     "timee"
+    t.string   "machine_id"
+    t.float    "numbere"
+    t.string   "typee"
+    t.string   "timestampe"
+    t.string   "machine_type"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "raw_data", ["machine_id"], name: "index_raw_data_on_machine_id", using: :btree
+  add_index "raw_data", ["machine_type"], name: "index_raw_data_on_machine_type", using: :btree
+
+  create_table "rpm_machines", force: :cascade do |t|
+    t.float "grad"
+  end
+
+  create_table "table1", id: false, force: :cascade do |t|
+    t.string  "field1"
+    t.integer "field2"
+  end
+
+  create_table "thedata", force: :cascade do |t|
+    t.date    "date"
+    t.time    "time"
+    t.integer "sensor_id"
+    t.integer "sensor_type"
+    t.float   "sensor_value"
+    t.integer "millis"
   end
 
   create_table "users", force: :cascade do |t|

@@ -12,10 +12,12 @@ $(function() {
             chart : {
                 renderTo : 'container_raw_data'
             },
+            tooltip: {
 
-            rangeSelector : {
-                selected : 1
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.2f}</b>',
+                valueDecimals: 2
             },
+            
 
             xAxis: [{
               gridLineEnabled:true,
@@ -112,9 +114,6 @@ $(function() {
                 name : name,
                 data : <%= @data_json %>,
                 color: '#008080',
-                tooltip: {
-                    valueDecimals: 2
-                },
                 turboThreshold:0
         
                

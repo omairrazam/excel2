@@ -1,5 +1,6 @@
 class Machine < ActiveRecord::Base
 	#scope :average_by_day, -> date{ where(Date: date) if date.present?}
+	actable
 	belongs_to :user
 	has_many   :datums , dependent: :destroy
 	has_many   :offtimes , dependent: :destroy
@@ -9,8 +10,8 @@ class Machine < ActiveRecord::Base
 	validates  :data_type, presence: true
 	validates  :next_index_excel, presence: true
 
-	after_create :load_data_async
-	after_create :update_offtimes
+	#after_create :load_data_async
+	#after_create :update_offtimes
 
 	#before_action :google_drive_session, only: [:fetch_data_from_excel, :rpm_type_excel_fetch,:counter_type_excel_fetch]
 
@@ -163,19 +164,18 @@ class Machine < ActiveRecord::Base
 
 		if self.data_type == "Temperature" or self.data_type == "Current" or self.data_type == "Counter"
 			data_json = datums.order('timestampe asc').pluck(:timestampe,:numbere)
-			data_json = data_json.map { |k,v| [k.to_i,v.to_i]}
+			data_json = data_json.map { |k,v| [k.to_f,v.to_f]}
 				
 		elsif self.data_type == "Rpm"
-			#debugger
 			data_json = datums.order('timestampe asc').pluck(:timestampe,:gradient)
-			data_json = data_json.map { |k,v| [k.to_i,v.to_i]}
+			data_json = data_json.map { |k,v| [k.to_f,v.to_f]}
 		end
 	
 	end
 
 	def getofftimes_for_graph
 		data_offtimes = self.offtimes.order('timestampe asc').pluck(:timestampe,:efficiency)
-		data_offtimes = data_offtimes.map { |k,v| [k.to_i,v] }
+		data_offtimes = data_offtimes.map { |k,v| [k.to_f,v] }
 	end
 
 	def fetch_data_from_excel
@@ -195,10 +195,10 @@ class Machine < ActiveRecord::Base
 		counter_pivot_point = 0
 		add_offset_values	= 0
 		counter_raw_previous_value = 0
-
-
+		
 
 	  	Datum.transaction do
+	  		
 		    header = @data_file.row(1)
 			(self.next_index_excel..last_row).each do |i|
 
@@ -210,24 +210,33 @@ class Machine < ActiveRecord::Base
 			d.numbere 	 = row["Number"]
 			d.typee		 = row["Type"]
 			d.timestampe = row["Timestamp"]
-
+			#debugger
 			if d.timee.blank? or d.datee.blank? or d.numbere.blank? or d.typee.blank? or d.timestampe.blank?
 				next
 			end
-
+			
 			if self.data_type == "Rpm"
+				# if d.numbere == 9532
+				# 	debugger
+				# end
 				#find gradient
 				if previous_datum.present?
+					
 					dy = (d.numbere - previous_datum.numbere) * 60000
 					dx = d.typee.to_f - previous_datum.typee.to_f
+
 					if dx > 0
-						d.gradient = (dy/dx).round(2)
+						d.gradient = (dy.to_f/dx.to_f).round(2)
 					else
-						d.gradient = 0
+						#resetting
+						previous_datum.numbere = 0
+						previous_datum.typee   = 0
+						next
 					end
 				else
 					d.gradient = 0
 				end
+				
 			elsif self.data_type == 'Counter'
 			    #reset value at 12am and 12 pm i.e after every 12 hours
 				#debugger
@@ -284,63 +293,6 @@ class Machine < ActiveRecord::Base
 
 	end
 
-	
-	def rpm_type_excel_fetch
-		google_drive_session
-
-		if self.next_index_excel >= @data_file.last_row
-	    	return
-		end
-
-		last_date_visited = "2000-01-01".to_datetime.strftime('%s').to_i * 1000
-		last_row 		  =  @data_file.last_row
-
-	  	Datum.transaction do
-		    header = @data_file.row(1)
-			(self.next_index_excel..last_row).each do |i|
-
-			row = Hash[[header, @data_file.row(i)].transpose]
-
-			d 			 = Datum.new
-			d.timee 	 = row["Time"]
-			d.datee 	 = row["Date"]
-			d.numbere 	 = row["Number"]
-			d.typee		 = row["Type"]
-			d.timestampe = row["Timestamp"]
-
-			if d.timee.blank? or d.datee.blank? or d.numbere.blank? or d.typee.blank? or d.timestampe.blank?
-				next
-			end
-
-			d.machine_id    = self.id
-			d.timee 		= d.timee.beginning_of_minute
-
-			timestamp    = row["Date"]+' '+ row["Time"]
-			timestamp    = timestamp.to_datetime.beginning_of_minute.strftime('%s').to_i * 1000
-			d.timestampe = timestamp
-			
-			if d.numbere < self.threshold
-				d.state = "off"
-			else
-				d.state = "on"
-			end
-
-
-			if d.timestampe.to_i > last_date_visited.to_i
-				d.save!
-				last_date_visited = d.timestampe.to_i
-			end
-
-			end
-		end
-		#update the next index to be used next time
-		self.next_index_excel = last_row
-		self.save!
-	end
-
-	def counter_type_excel_fetch
-		google_drive_session
-	end
 
 	def has_data
 		if self.datums.count <= 0
@@ -435,5 +387,9 @@ class Machine < ActiveRecord::Base
 		ws.export_as_file(Rails.root.to_s +  "/excelsheets/#{current_user.id}/#{self.sheetname}.csv")
 		@data_file = Roo::CSV.new(Rails.root.to_s + "/excelsheets/#{current_user.id}/#{self.sheetname}.csv")
 
+	end
+
+	def process
+		p "machine base class process"
 	end
 end

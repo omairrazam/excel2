@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :machines
   #after_create :create_machines
   #validates :sheet_name, :presence => true
-  validates :username, :presence => true
+  #validates :username, :presence => true
 
   private    
 	def password_required?
