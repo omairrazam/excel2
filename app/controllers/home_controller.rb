@@ -1,10 +1,4 @@
-class HomeController < BaseController
-    require 'roo'
-    require 'google/apis/drive_v2'
-    require 'google_drive'
-    require 'csv'
-	require 'iconv'
-	
+class HomeController < BaseController	
     before_action :load_machine, only: [:ajax_info_box_update, :show]
 
 	def ajax_info_box_update
@@ -34,11 +28,6 @@ class HomeController < BaseController
 
 	def show
 
-		# @users = User.all
-		# @users.each do |u|
-		# 	SensorMailer.sample_email(u).deliver
-		# end
-
 		if @current_machine == nil
 			flash[:alert]  = 'Machine not present'
 		    return
@@ -52,14 +41,16 @@ class HomeController < BaseController
 			flash.now[:notice] = 'No Data Found...'
 		    return
 		end
-		
-		@date 	        =  @current_machine.datums.last.datee.strftime("%Y-%m-%d")
-		@offtime 		=  @current_machine.offtimes.where("date=?", @date).first
-		@off_minutes 	=  @offtime.try(:minutes)	
-		@day_efficiency =  @current_machine.efficiency(@date)
+			
+		@current_machine = @current_machine.specific	
+		@date 	         =  @current_machine.datums.last.datee.strftime("%Y-%m-%d")
+		@offtime 		 =  @current_machine.offtimes.where("date=?", @date).first
+		@off_minutes 	 =  @offtime.try(:minutes)	
+		@day_efficiency  =  @current_machine.efficiency(@date)
 
-		@data_json     = @current_machine.getdata_for_graph
-		@data_offtimes = @current_machine.getofftimes_for_graph
+		@data_json       = @current_machine.getdata_for_graph
+		@data_offtimes   = @current_machine.getofftimes_for_graph
+
 		
 	end
 

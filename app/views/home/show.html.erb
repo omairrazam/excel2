@@ -1,11 +1,3 @@
-<script type="text/javascript">
-// $(document).ready(function(){
-//         var json= "#{@data_json}"
-//   var offtimes = <%= @data_offtimes %>
-//   var info_box_datepicker_value = <%= @filter_date %>
-//    });
-
-</script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.css">
 <% content_for :head do %>
@@ -83,5 +75,6 @@
 <br>
 <br>
 <br>
-<%= render :partial => "charts" %>
+<%= render :partial => "data_chart" %>
+<%= render :partial => "efficiency_chart" %>
 

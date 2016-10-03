@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929035041) do
+ActiveRecord::Schema.define(version: 20161003163314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,13 +40,13 @@ ActiveRecord::Schema.define(version: 20160929035041) do
     t.time     "timee"
     t.float    "numbere"
     t.string   "typee"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "machine_id"
     t.date     "datee"
     t.string   "state"
-    t.string   "timestampe"
     t.float    "gradient"
+    t.integer  "timestampe", limit: 8
   end
 
   add_index "data", ["machine_id"], name: "index_data_on_machine_id", using: :btree
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20160929035041) do
     t.integer  "next_index_excel"
     t.integer  "actable_id"
     t.string   "actable_type"
+    t.string   "unique_id"
   end
 
   create_table "offtimes", force: :cascade do |t|

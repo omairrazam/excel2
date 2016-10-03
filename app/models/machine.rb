@@ -164,12 +164,14 @@ class Machine < ActiveRecord::Base
 
 		if self.data_type == "Temperature" or self.data_type == "Current" or self.data_type == "Counter"
 			data_json = datums.order('timestampe asc').pluck(:timestampe,:numbere)
-			data_json = data_json.map { |k,v| [k.to_f,v.to_f]}
+			#data_json = data_json.map { |k,v| [k.to_f,v.to_f]}
 				
 		elsif self.data_type == "Rpm"
 			data_json = datums.order('timestampe asc').pluck(:timestampe,:gradient)
 			data_json = data_json.map { |k,v| [k.to_f,v.to_f]}
 		end
+
+		data_json
 	
 	end
 
@@ -334,18 +336,15 @@ class Machine < ActiveRecord::Base
 		else
 			efficiency      = on_datums/total_datums * 100
 			efficiency.round(2)
-		end
-				
-		
+		end	
 	end
 
 	def average_value_by_day(date)
-		 datums.where('datee=?', date).average(:numbere).to_f.round(2)
+		 datums.find_by_date(date).average(:numbere).to_f.round(2)
 	end
 
 	def maximum_value_by_day(date)
-		#debugger
-		 datums.where('datee=?', date).maximum(:numbere).to_f.round(2)
+		 datums.find_by_date(date).maximum(:numbere).to_f.round(2)
 	end
 
 	def minimum_value_by_day(date)
@@ -375,21 +374,7 @@ class Machine < ActiveRecord::Base
 		fetch_data_from_excel
 	end
 
-	def google_drive_session
-		session = GoogleDrive::Session.from_config("config.json")
 
-		ws = session.spreadsheet_by_title(self.sheetname).worksheets[0] rescue nil
-		current_user = self.user
 
-		directory_name = Rails.root.to_s +  "/excelsheets/#{user.id}"
-      	Dir.mkdir(directory_name) unless File.exists?(directory_name)
-
-		ws.export_as_file(Rails.root.to_s +  "/excelsheets/#{current_user.id}/#{self.sheetname}.csv")
-		@data_file = Roo::CSV.new(Rails.root.to_s + "/excelsheets/#{current_user.id}/#{self.sheetname}.csv")
-
-	end
-
-	def process
-		p "machine base class process"
-	end
+	
 end

@@ -1,0 +1,135 @@
+
+
+<script type="text/javascript">
+	
+
+$(function() {
+  //alert(json[0][0])
+      var machineName = "<%==  escape_javascript @current_machine.name if @current_machine%>";
+      var machineType = "<%==  escape_javascript @current_machine.data_type if @current_machine%>";
+        // Create the chart
+        window.chart = new Highcharts.StockChart({
+            chart : {
+                renderTo : 'container_raw_data'
+            },
+            tooltip: {
+
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.2f}</b>',
+                valueDecimals: 2
+            },
+            
+
+            xAxis: [{
+              gridLineEnabled:true,
+              ordinal: true,
+              gridLineDashStyle:"longdash",
+              gridLineWidth:1,
+              title: {
+                text: 'Time -->',
+                style: {
+                  color: '#333333',
+                  font: '16px Arial',
+                  fontWeight:'bold'
+                }
+              },
+              
+              gridLineColor:"#bababa",
+              dateTimeLabelFormats:{
+                  second:"%H:%M:%S",
+                  minute:"%H:%M",
+                  hour:"%H:%M",
+                  day:"%d %b",
+                  week:"%d %b",
+                  month:"%d %b",
+                  year:"%d %b"
+              },
+              type:"datetime"
+            }],
+             yAxis: {
+              opposite: false,
+              title: {
+                  text: machineType,
+                  style: {
+                  color: '#333333',
+                  font: '16px Arial',
+                  fontWeight:'bold'
+                }
+
+              }
+            },
+
+
+            title : {
+                text : 'Machines Raw Data',
+                align: 'left',
+                style: {
+                  color: '#333333',
+                  font: '16px Arial',
+                  fontWeight:'bold'
+                }
+                
+            },
+            scrollbar:{
+              liveRedraw:true
+            },
+
+            rangeSelector : {
+                allButtonsEnabled: true,
+                /*inputPosition: { y: 5 },*/
+                buttons: [
+                {
+                    type: 'minute',
+                    count:1,
+                    text: '10M',
+                    
+                },
+                {
+                    type: 'hour',
+                    count:1,
+                    text: '1H',
+                    
+                },
+                {
+                    type: 'hour',
+                    count:12,
+                    text: '12H',
+                    
+                },
+                {
+                    type: 'day',
+                    count:1,
+                    text: '24H',
+                    
+                }
+
+                ],
+                buttonTheme: {
+                    width: 60
+                },
+                selected: 1
+            },
+
+            series : [{
+              pointStart:Date.UTC(2015,9,27),
+                name : name,
+                data : <%= @data_json %>,
+                color: '#008080',
+                turboThreshold:0
+        
+               
+            }]
+            
+        }, function(chart){
+          // apply the date pickers
+            setTimeout(function(){
+                $('input.highcharts-range-selector', $('#' + chart.options.chart.renderTo))
+                    .datepicker()
+            },0)
+           
+        });
+   
+    // Set the datepicker's date format
+});
+
+
+</script>
