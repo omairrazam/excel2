@@ -1,4 +1,4 @@
-class CounterMachineProcessor
+class CounterMachineProcessor < BaseMachineProcessor
 	attr_accessor :raw_datum, :last_value, :pivot_value, :offset_value, :counter_machine_instance, :datum
 
 	def initialize(machine_instance)
@@ -37,11 +37,6 @@ class CounterMachineProcessor
 
 	private
 
-	def add_timestamp_to_datum
-		timestamp    = @raw_datum.date.to_s + ' ' + @raw_datum.time.strftime('%H:%M:%S').to_s
-		timestamp    = timestamp.to_datetime.beginning_of_minute.strftime('%s').to_i * 1000
-		@datum.timestampe = timestamp
-	end
 
 	def reset_counter_check
 		if @datum.timee.strftime("%H:%M:%S") == "23:59:59" or  @datum.timee.strftime("%H:%M") == "12:00:00"
@@ -60,11 +55,5 @@ class CounterMachineProcessor
 		@last_value    = @raw_datum.sensor_value
 	end
 
-	def set_state_of_datum
-		if @raw_datum.sensor_value < @counter_machine_instance.threshold
-			@datum.state = "off"
-		else
-			@datum.state = "on"
-		end
-	end
+	
 end

@@ -375,6 +375,10 @@ class Machine < ActiveRecord::Base
 	end
 
 
-
+	# new implementation methods - don't delete them while cleansing.
+	def load_offtimes
+		processor = OfftimeProcessor.new(self.specific)
+		processor.find_offtimes
+	end
 	
 end
