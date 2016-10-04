@@ -1,7 +1,7 @@
 #server '52.36.143.78', user: 'deploy', roles: %w{web app db}
-server '52.36.143.78', user: 'deploy', roles: %w{web app db}
 
 
+server '52.39.192.255', user: 'deploy', roles: %w{web app db}
 
 set :pty,  false
 # server-based syntax
