@@ -5,6 +5,22 @@ class MachineDecorator
 		@machine = machine
 	end
 
+	def offtime_by_date(date)
+		@machine.acting_as.offtimes.where(date: date)
+	end
+
+	def last_datum_date
+		date = @machine.datums.last.datee.strftime("%Y-%m-%d") rescue '-'
+	end
+
+	def live_value
+		@machine.datums.last.numbere rescue '-'
+	end
+
+	def grapher_data
+		@machine.getdata_for_graph
+	end
+
 	def average_value_by_day(date)
 		 @machine.datums.find_by_date(date).average(:numbere).to_f.round(2)
 	end
@@ -18,7 +34,8 @@ class MachineDecorator
 	end
 
 	def total_uptime(date)
-		d = @machine.datums.where('numbere>=? AND datee=?',5,date).count
+		#debugger
+		d = @machine.datums.where('numbere>=? AND datee=?',@machine.threshold,date).count
 		d = d*68/60
 		hrs  = d / 60
 		mins = d % 60

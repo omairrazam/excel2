@@ -1,19 +1,23 @@
 class Machine < ActiveRecord::Base
 	#scope :average_by_day, -> date{ where(Date: date) if date.present?}
 	actable
+	
+	#relations
 	belongs_to :user
 	has_many   :datums , dependent: :destroy
 	has_many   :offtimes , dependent: :destroy
+
+	#scopes
+	
+
+	#validations
 	validates  :name, presence: true
 	validates  :sheetname, presence: true
 	validates  :threshold, presence: true
 	validates  :data_type, presence: true
 	validates  :next_index_excel, presence: true
 
-	#after_create :load_data_async
-	#after_create :update_offtimes
-
-	#before_action :google_drive_session, only: [:fetch_data_from_excel, :rpm_type_excel_fetch,:counter_type_excel_fetch]
+	
 
 	def update_offtimes
 		if self.datums.count == 0
@@ -311,69 +315,6 @@ class Machine < ActiveRecord::Base
 	def get_offdatums
 		self.datums.find_by(:state => "off")
 	end
-
-	def efficiency(date)
-		selected_datums = datums.where('datee=?', date)
-		total_datums    = selected_datums.count
-		on_datums       = selected_datums.where('state=?', 'on').count.to_f
-
-		if total_datums == 0
-			return
-		end
-		#Counter = (Total values logged - the number of gradients that are zero )/ Total values logged *100
-		#RPM     = (Total values logged - the number of gradients that are zero)/ Total values logged *100
-
-		if self.data_type == 'Counter'
-			zero_gradients_count = selected_datums.where('gradient=?',0).count
-			efficiency      	 = (total_datums - zero_gradients_count)/total_datums * 100
-			efficiency.round(2)
-
-		elsif self.data_type == 'Rpm'
-			zero_gradients_count = selected_datums.where('gradient=?',0).count
-			efficiency      	 = (total_datums - zero_gradients_count)/total_datums * 100
-			efficiency.round(2)
-			
-		else
-			efficiency      = on_datums/total_datums * 100
-			efficiency.round(2)
-		end	
-	end
-
-	def average_value_by_day(date)
-		 datums.find_by_date(date).average(:numbere).to_f.round(2)
-	end
-
-	def maximum_value_by_day(date)
-		 datums.find_by_date(date).maximum(:numbere).to_f.round(2)
-	end
-
-	def minimum_value_by_day(date)
-		 datums.where('datee=?', date).minimum(:numbere).to_f.round(2)
-	end
-
-	def total_uptime(date)
-		d = datums.where('numbere>=? AND datee=?',5,date).count
-		d = d*68/60
-		hrs  = d / 60
-		mins = d % 60
-		final = hrs.to_s + "h " + mins.to_s + "m"
-		#debugger
-	end
-
-	def total_monitored_time(date)
-		#debugger
-		d = datums.where('datee=?',date).count
-		d = d*68/60
-		hrs  = d / 60
-		mins = d % 60
-		final = hrs.to_s + "h " + mins.to_s + "m"
-	end
-
-	def load_data_async
-		#PygmentsWorker.perform_async(1)
-		fetch_data_from_excel
-	end
-
 
 	# new implementation methods - don't delete them while cleansing.
 	def load_offtimes

@@ -5,11 +5,12 @@ class OfftimeProcessor
 		@machine_instance = machine
 
 		@last_date 	    = @machine_instance.offtimes.last.try(:date) 
+		
 		@first_date     = @machine_instance.datums.first.datee
 		@starting_date  = @last_date
 
 		if @last_date.blank?
-			@starting_date   = @first_date
+			@starting_date = @first_date
 		end
 
 	end

@@ -9,7 +9,10 @@ class CounterMachine < ActiveRecord::Base
 		self.next_index_excel = data.last.id if data.present?
 		self.save
 
-		load_offtimes
+		
+		if self.datums.count > 0
+			load_offtimes
+		end
 	end
 
 	def efficiency(date)
