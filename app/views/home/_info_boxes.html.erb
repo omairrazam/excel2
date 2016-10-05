@@ -41,7 +41,7 @@
         <strong>Maximum Value:</strong><center><p class="lbl-info green"><%= @machine_decorator.maximum_value_by_day(last_datum_date) %></p></center>
       </div>
     </li>
-
+    
      <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
         <strong>Max continuous on time:</strong><center><p class="lbl-info purple"><%=@machine_decorator.offtime_by_date(last_datum_date).max_continuous_on_time rescue "-" %></p></center>

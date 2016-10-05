@@ -6,7 +6,7 @@ class MachineDecorator
 	end
 
 	def offtime_by_date(date)
-		@machine.acting_as.offtimes.where(date: date)
+		@machine.acting_as.offtimes.where(date: date).first
 	end
 
 	def last_datum_date

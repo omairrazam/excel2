@@ -17,9 +17,8 @@ class OfftimeProcessor
 
 	def find_offtimes
 
-		hash 		 = @machine_instance.datums.find_by_date(starting_date).order('timestampe asc').group_by{ |dat| dat.datee.to_date }
-		last_visited = 0
-
+		hash 		 = @machine_instance.datums.all.where('datee>=?', starting_date).order('timestampe asc').group_by{ |dat| dat.datee.to_date }
+	
 		hash.each{|date,dats|
 			date_offtime 		       =  0
 			date_maximum_cont_on_time  =  0
@@ -38,6 +37,7 @@ class OfftimeProcessor
 			offtime.efficiency			  = @machine_instance.efficiency(date)
 			offtime.timestampe            = date.strftime('%s').to_i * 1000
 			offtime.save!
+			
 		}
 	end
 
