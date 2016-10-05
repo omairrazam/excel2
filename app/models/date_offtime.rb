@@ -62,7 +62,7 @@ class DateOfftime
 			d_chunk_diff = (d_chunk.timestampe.to_i - last_value)/60000
 			
 			if d_chunk_diff >= 3
-				d = last_value - date_pivot
+				d = last_value - @date_pivot
 				d = d/60000 #in minutes
 				# maximum continued off time check
 				update_max_times(d_chunk,d)
@@ -70,7 +70,7 @@ class DateOfftime
 				# date total offtime
 				@total_offtime = @total_offtime + d
 	            # change pivot
-				date_pivot = d_chunk.timestampe.to_i
+				@date_pivot = d_chunk.timestampe.to_i
 				d = 0
 			end
 

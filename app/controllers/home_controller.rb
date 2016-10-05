@@ -38,7 +38,7 @@ class HomeController < BaseController
 		@machine_decorator = MachineDecorator.new(@current_machine.specific)
 		
 		#update machine
-		@current_machine.specific.process
+		#@current_machine.specific.process
 
 		
 	end
