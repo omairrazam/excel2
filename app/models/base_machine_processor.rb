@@ -8,7 +8,7 @@ class BaseMachineProcessor
 	end
 
 	def set_state_of_datum
-		if @raw_datum.sensor_value < @counter_machine_instance.threshold
+		if @raw_datum.sensor_value < @machine_instance.threshold
 			@datum.state = "off"
 		else
 			@datum.state = "on"

@@ -1,11 +1,11 @@
 class CounterMachineProcessor < BaseMachineProcessor
-	attr_accessor :raw_datum, :last_value, :pivot_value, :offset_value, :counter_machine_instance, :datum
+	attr_accessor :raw_datum, :last_value, :pivot_value, :offset_value, :machine_instance, :datum
 
 	def initialize(machine_instance)
 		@pivot_value  = 0
 		@offset_value = 0
 		@last_value   = 0 
-		@counter_machine_instance = machine_instance
+		@machine_instance = machine_instance
 		
 	end
 
@@ -22,7 +22,7 @@ class CounterMachineProcessor < BaseMachineProcessor
 		@datum.timee 	  = @raw_datum.time
 		@datum.datee 	  = @raw_datum.date
 		@datum.numbere 	  = @raw_datum.sensor_value + @offset_value - @pivot_value
-		@datum.machine_id = @counter_machine_instance.acting_as.id
+		@datum.machine_id = @machine_instance.acting_as.id
 		@datum.gradient   = @raw_datum.sensor_value.to_f - @last_value
         add_timestamp_to_datum
         set_state_of_datum

@@ -4,12 +4,15 @@ class TemperatureMachine < ActiveRecord::Base
 
 	def process
 		data = RawDatum.machine_data(self.next_index_excel, Constant::MACHINE_TEMPERATURE,	self.unique_id)
+		
 		bulk_import_datums(data)
 		# first row for next fetching
 		self.next_index_excel = data.last.id if data.present?
 		self.save
 
-		load_offtimes
+		if self.datums.count > 0
+			load_offtimes
+		end
 	end
 
 	def efficiency(date)
