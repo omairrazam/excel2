@@ -46,7 +46,7 @@ class HomeController < BaseController
 		@machine_decorator = MachineDecorator.new(@current_machine)
 		#debugger
 		#update machine
-		#@current_machine.process
+		@current_machine.process
 
 		# decorators work	
 		
