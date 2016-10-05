@@ -21,6 +21,10 @@ class MachineDecorator
 		@machine.getdata_for_graph
 	end
 
+	def grapher_offtime_data
+		@machine.getofftimes_for_graph
+	end
+
 	def average_value_by_day(date)
 		 @machine.datums.find_by_date(date).average(:numbere).to_f.round(2)
 	end
