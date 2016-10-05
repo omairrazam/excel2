@@ -11,15 +11,8 @@ class HomeController < BaseController
 			return
 		end
 
-		@date 	 = params[:date]
+		@machine_decorator = MachineDecorator.new(@current_machine.specific, params[:date])
 		
-		if @current_machine.present? and @date.present?
-			@filter_date 	=  @date|| @current_machine.datums.last.datee.strftime("%Y-%m-%d")
-			@offtime 		=  @current_machine.offtimes.where("date=?", @filter_date).first
-			@off_minutes 	=  @offtime.try(:minutes)	
-			@day_efficiency =  @current_machine.efficiency(@filter_date)
-		end
-
 		respond_to do |format|
 		  format.html 
 		  format.js 
@@ -42,23 +35,12 @@ class HomeController < BaseController
 		    return
 		end
 			
-		@current_machine   = @current_machine.specific
-		@machine_decorator = MachineDecorator.new(@current_machine)
-		#debugger
+		@machine_decorator = MachineDecorator.new(@current_machine.specific)
+		
 		#update machine
-		@current_machine.process
-
-		# decorators work	
-		
-		#@date 	         =  @current_machine.datums.last.datee.strftime("%Y-%m-%d")
-		#@offtime 		 =  @current_machine.offtimes_by_date(@date).first
-		#@off_minutes 	 =  @offtime.try(:minutes)	
-		#@day_efficiency  =  @current_machine.efficiency(@date)
+		#@current_machine.process
 
 		
-
-		#@data_json       = @current_machine.getdata_for_graph
-		#@data_offtimes   = @current_machine.getofftimes_for_graph	
 	end
 
 	private

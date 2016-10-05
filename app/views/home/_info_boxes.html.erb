@@ -1,4 +1,3 @@
-<% last_datum_date = @machine_decorator.last_datum_date %>
 
 <div id="info_data_processing" style="display:none;"><%= image_tag "processing.gif" %></div>
 <% if @current_machine.present?  %>
@@ -12,45 +11,45 @@
 
     <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Efficiency:</strong><center><p class="lbl-info green"><%= @machine_decorator.efficiency(last_datum_date)   %> % </p></center>
+        <strong>Efficiency:</strong><center><p class="lbl-info green"><%= @machine_decorator.efficiency(@machine_decorator.default_date)   %> % </p></center>
       </div>
       
     </li>
 
     <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Total On Time:</strong><center><p class="lbl-info purple"><%= @machine_decorator.total_uptime(last_datum_date) %></p></center>
+        <strong>Total On Time:</strong><center><p class="lbl-info purple"><%= @machine_decorator.total_uptime%></p></center>
       </div>
      
     </li>
 
     <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Total Monitored Time:</strong><center><p class="lbl-info blue"><%= @machine_decorator.total_monitored_time(last_datum_date) %></p></center>
+        <strong>Total Monitored Time:</strong><center><p class="lbl-info blue"><%= @machine_decorator.total_monitored_time %></p></center>
       </div>
     </li>
 
      <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Average Value:</strong><center><p class="lbl-info blue"><%= @machine_decorator.average_value_by_day(last_datum_date) %></p></center>
+        <strong>Average Value:</strong><center><p class="lbl-info blue"><%= @machine_decorator.average_value_by_day%></p></center>
       </div>
     </li>
 
      <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Maximum Value:</strong><center><p class="lbl-info green"><%= @machine_decorator.maximum_value_by_day(last_datum_date) %></p></center>
+        <strong>Maximum Value:</strong><center><p class="lbl-info green"><%= @machine_decorator.maximum_value_by_day %></p></center>
       </div>
     </li>
     
      <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Max continuous on time:</strong><center><p class="lbl-info purple"><%=@machine_decorator.offtime_by_date(last_datum_date).max_continuous_on_time rescue "-" %></p></center>
+        <strong>Max continuous on time:</strong><center><p class="lbl-info purple"><%=@machine_decorator.offtime_by_date.max_continuous_on_time rescue "-" %></p></center>
       </div>
     </li>
 
      <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Max continuous off time:</strong><center><p class="lbl-info blue"><%=@machine_decorator.offtime_by_date(last_datum_date).max_continuous_off_time rescue "-" %></p></center>
+        <strong>Max continuous off time:</strong><center><p class="lbl-info blue"><%=@machine_decorator.offtime_by_date.max_continuous_off_time rescue "-" %></p></center>
       </div>
     </li>
   </ul>

@@ -1,12 +1,18 @@
 class MachineDecorator
-	attr_reader :machine
+	attr_reader :machine, :default_date
 
-	def initialize(machine)
+	def initialize(machine, date=nil)
 		@machine = machine
+
+		if date.blank?
+			date = last_datum_date
+		end
+
+		@default_date = date
 	end
 
-	def offtime_by_date(date)
-		@machine.acting_as.offtimes.where(date: date).first
+	def offtime_by_date
+		@machine.acting_as.offtimes.where(date: @default_date).first
 	end
 
 	def last_datum_date
@@ -25,21 +31,21 @@ class MachineDecorator
 		@machine.getofftimes_for_graph
 	end
 
-	def average_value_by_day(date)
-		 @machine.datums.find_by_date(date).average(:numbere).to_f.round(2)
+	def average_value_by_day
+		 @machine.datums.find_by_date(@default_date).average(:numbere).to_f.round(2)
 	end
 
-	def maximum_value_by_day(date)
-		 @machine.datums.find_by_date(date).maximum(:numbere).to_f.round(2)
+	def maximum_value_by_day
+		 @machine.datums.find_by_date(@default_date).maximum(:numbere).to_f.round(2)
 	end
 
-	def minimum_value_by_day(date)
-		 @machine.datums.find_by_date(date).minimum(:numbere).to_f.round(2)
+	def minimum_value_by_day
+		 @machine.datums.find_by_date(@default_date).minimum(:numbere).to_f.round(2)
 	end
 
-	def total_uptime(date)
+	def total_uptime
 		#debugger
-		d = @machine.datums.where('numbere>=? AND datee=?',@machine.threshold,date).count
+		d = @machine.datums.where('numbere>=? AND datee=?',@machine.threshold,@default_date).count
 		d = d*68/60
 		hrs  = d / 60
 		mins = d % 60
@@ -55,9 +61,9 @@ class MachineDecorator
 		end
 	end
 	
-	def total_monitored_time(date)
+	def total_monitored_time
 		#debugger
-		d = @machine.datums.where('datee=?',date).count
+		d = @machine.datums.where('datee=?',@default_date).count
 		d = d*68/60
 		hrs  = d / 60
 		mins = d % 60
