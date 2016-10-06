@@ -4,15 +4,11 @@ class Machine < ActiveRecord::Base
 	
 	#relations
 	belongs_to :user
-	has_many   :datums , dependent: :destroy
+	has_many   :datums   , dependent: :destroy
 	has_many   :offtimes , dependent: :destroy
 
-	#scopes
-	
-
 	#validations
-	validates  :name, presence: true
-	validates  :sheetname, presence: true
+	validates  :name     , presence: true
 	validates  :threshold, presence: true
 	validates  :data_type, presence: true
 	validates  :next_index_excel, presence: true

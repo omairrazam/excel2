@@ -28,6 +28,7 @@ ActiveAdmin.register User do
   end
 
   form do |f|
+    f.semantic_errors *f.object.errors.keys
     f.inputs "Admin Details" do
       f.input :email
       f.input :username
@@ -41,9 +42,7 @@ ActiveAdmin.register User do
   show do
     attributes_table :email, :is_admin, :sheet_name,:send_reports
   end
-  controller do
-    
-  end
+  
 
   sidebar "Machine Details", only: [:show, :edit] do
     ul do

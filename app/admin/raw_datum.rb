@@ -2,7 +2,7 @@ ActiveAdmin.register RawDatum do
 
 	filter :sensor_id
 	filter :sensor_type
-
+	config.clear_action_items!
 	index do
 	    selectable_column
 	    column :id
@@ -14,6 +14,6 @@ ActiveAdmin.register RawDatum do
 	    column :millis
 
 	    
-	    actions
+	    #actions
 	end
 end
