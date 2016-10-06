@@ -12,35 +12,35 @@ class MachineDecorator
 	end
 
 	def offtime_by_date
-		@machine.acting_as.offtimes.where(date: @default_date).first
+		@machine.acting_as.offtimes.where(date: @default_date).first if has_data?
 	end
 
 	def last_datum_date
-		date = @machine.datums.last.datee.strftime("%Y-%m-%d") rescue '-'
+		date = @machine.datums.last.datee.strftime("%Y-%m-%d") rescue '-' if has_data?
 	end
 
 	def live_value
-		@machine.datums.last.numbere rescue '-'
+		@machine.datums.last.numbere rescue '-' if has_data?
 	end
 
 	def grapher_data
-		@machine.getdata_for_graph
+		@machine.getdata_for_graph if has_data?
 	end
 
 	def grapher_offtime_data
-		@machine.getofftimes_for_graph
+		@machine.getofftimes_for_graph if has_data?
 	end
 
 	def average_value_by_day
-		 @machine.datums.find_by_date(@default_date).average(:numbere).to_f.round(2)
+		 @machine.datums.find_by_date(@default_date).average(:numbere).to_f.round(2) if has_data?
 	end
 
 	def maximum_value_by_day
-		 @machine.datums.find_by_date(@default_date).maximum(:numbere).to_f.round(2)
+		 @machine.datums.find_by_date(@default_date).maximum(:numbere).to_f.round(2) if has_data?
 	end
 
 	def minimum_value_by_day
-		 @machine.datums.find_by_date(@default_date).minimum(:numbere).to_f.round(2)
+		 @machine.datums.find_by_date(@default_date).minimum(:numbere).to_f.round(2) if has_data?
 	end
 
 	def total_uptime
@@ -53,12 +53,8 @@ class MachineDecorator
 		#debugger
 	end
 
-	def has_data
-		if self.datums.count <= 0
-			return false
-		else
-			return true
-		end
+	def has_data?
+		@machine.datums.present?
 	end
 	
 	def total_monitored_time

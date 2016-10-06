@@ -21,22 +21,18 @@ class HomeController < BaseController
 
 	def show
 
-		if @current_machine == nil
-			flash[:alert]  = 'Machine not present'
-		    return
-		end
-
-		if @current_machine.user.id != current_user.id
-			return
+		if @current_machine == nil 
+			flash[:alert]  = 'Machine not present or you are not the owner' 
 		end
 
 		if !@current_machine.has_data
 			flash.now[:notice] = 'No Data Found...'
-		    return
 		end
-			
+		
+		#debugger
 		@machine_decorator = MachineDecorator.new(@current_machine.specific)
 		
+		 
 		#update machine
 		@current_machine.specific.process
 
@@ -45,7 +41,7 @@ class HomeController < BaseController
 	private
 
 	def load_machine
-		@current_machine = Machine.find(params[:id]) rescue nil
+		@current_machine = current_user.machines.find(params[:id]) rescue nil
 	end
 
 	def data_params

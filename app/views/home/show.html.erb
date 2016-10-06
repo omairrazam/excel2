@@ -40,10 +40,9 @@
     <div class="row">
       <% if @current_machine.present? %>
         <div >
-
             <p class = "pull-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Date  : (<%= @machine_decorator.last_datum_date %>)</p>
 
-           <span class="pull-right"> Last Updated @ <%= time_ago_in_words(@current_machine.updated_at)  %>&nbsp;ago</span>
+           <span class="pull-right"> Last Updated @ <%= time_ago_in_words(@machine_decorator.updated_at)  %>&nbsp;ago</span>
         </div>
 
       <% end %>
