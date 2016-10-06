@@ -40,7 +40,7 @@ class RpmMachineProcessor < BaseMachineProcessor
 			end
 		else
 			@datum.gradient = 0
-			@previous_datum = @datum
+			@previous_datum = @raw_datum
 		end
 	end
 
