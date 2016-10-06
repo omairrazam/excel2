@@ -40,7 +40,6 @@ class HomeController < BaseController
 		#update machine
 		@current_machine.specific.process
 
-		
 	end
 
 	private
