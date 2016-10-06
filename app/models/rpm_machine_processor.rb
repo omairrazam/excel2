@@ -1,4 +1,4 @@
-class RpmMachineProcessor
+class RpmMachineProcessor < BaseMachineProcessor
 
 	def initialize(machine_instance)
 		@machine_instance = machine_instance

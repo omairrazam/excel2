@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
    else
     redirect_to root_path
    end
+ end
 
   rescue_from SecurityError do |exception|
     redirect_to root_path , flash: {notice: "Access Denied"}

@@ -25,7 +25,7 @@ class HomeController < BaseController
 		end
 
 		#update machine
-		@current_machine.specific.process
+		#@current_machine.specific.process
 
 	end
 
