@@ -11,7 +11,8 @@ class Machine < ActiveRecord::Base
 	validates  :name     , presence: true
 	validates  :threshold, presence: true
 	validates  :data_type, presence: true
-	validates  :next_index_excel, presence: true
+	validates  :unique_id, presence: true
+	#validates  :next_index_excel, presence: true
 
 	
 

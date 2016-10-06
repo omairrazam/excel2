@@ -10,8 +10,11 @@ class ApplicationController < ActionController::Base
   # end
 
   def authenticate_admin_user!
+    if current_user.present?
     raise SecurityError unless current_user.is_admin 
-  end
+   else
+    redirect_to root_path
+   end
 
   rescue_from SecurityError do |exception|
     redirect_to root_path , flash: {notice: "Access Denied"}
