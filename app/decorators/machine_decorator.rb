@@ -7,7 +7,7 @@ class MachineDecorator
 		if date.blank?
 			date = last_datum_date
 		end
-
+		
 		@default_date = date
 	end
 

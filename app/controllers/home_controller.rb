@@ -3,14 +3,6 @@ class HomeController < BaseController
 
 	def ajax_info_box_update
 
-		if @current_machine == nil 
-			return
-		end
-
-		if @current_machine.user.id != current_user.id
-			return
-		end
-
 		@machine_decorator = MachineDecorator.new(@current_machine.specific, params[:date])
 		
 		respond_to do |format|
@@ -21,18 +13,17 @@ class HomeController < BaseController
 
 	def show
 
-		if @current_machine == nil 
+		if @current_machine.blank?
 			flash[:alert]  = 'Machine not present or you are not the owner' 
-		end
-
-		if !@current_machine.has_data
-			flash.now[:notice] = 'No Data Found...'
+			redirect_to root_path and return	
 		end
 		
-		#debugger
 		@machine_decorator = MachineDecorator.new(@current_machine.specific)
 		
-		 
+		if !@machine_decorator.has_data?
+			flash.now[:notice] = 'No Data Found...'
+		end
+
 		#update machine
 		@current_machine.specific.process
 
