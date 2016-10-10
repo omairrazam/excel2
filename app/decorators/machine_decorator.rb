@@ -45,12 +45,11 @@ class MachineDecorator
 
 	def total_uptime
 		#debugger
-		d = @machine.datums.where('numbere>=? AND datee=?',@machine.threshold,@default_date).count
-		d = d*68/60
-		hrs  = d / 60
-		mins = d % 60
+		d     = @machine.datums.where('numbere>=? AND datee=?',@machine.threshold,@default_date).count
+		d     = d*60/60
+		hrs   = d / 60
+		mins  = d % 60
 		final = hrs.to_s + "h " + mins.to_s + "m"
-		#debugger
 	end
 
 	def has_data?

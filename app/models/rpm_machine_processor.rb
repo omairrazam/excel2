@@ -15,7 +15,8 @@ class RpmMachineProcessor < BaseMachineProcessor
 		@datum.datee 	  = @raw_datum.date
 		@datum.numbere 	  = @raw_datum.sensor_value 
 		@datum.machine_id = @machine_instance.acting_as.id
-
+		@datum.typee	  = @raw_datum.millis
+		
         add_timestamp_to_datum
         set_state_of_datum
 
