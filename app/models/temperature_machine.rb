@@ -19,8 +19,10 @@ class TemperatureMachine < ActiveRecord::Base
 		selected_datums = datums.find_by_date(date)
 		total_datums    = selected_datums.count
 		on_datums       = selected_datums.find_by_state('on').count.to_f
-
-		efficiency  = on_datums.to_f/total_datums * 100
+		efficiency = 0
+		if total_datums > 0
+		efficiency  = on_datums.to_f/total_datums * 100 
+	    end
 	    efficiency.round(2)
 	end
 

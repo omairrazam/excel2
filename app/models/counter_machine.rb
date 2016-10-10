@@ -21,7 +21,10 @@ class CounterMachine < ActiveRecord::Base
 		on_datums       = selected_datums.find_by_state('on').count.to_f
 
 		zero_gradients_count = selected_datums.find_by_gradient(0).count
-		efficiency      	 = (total_datums - zero_gradients_count).to_f/total_datums * 100
+		efficiency = 0
+		if total_datums > 0
+			efficiency = (total_datums - zero_gradients_count).to_f/total_datums * 100 
+		end
 		efficiency.round(2)
 	end
 
