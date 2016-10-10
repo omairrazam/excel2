@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   #after_create :create_machines
   #validates :sheet_name, :presence => true
   #validates :username, :presence => true
+  scope :users_with_reports, ->{where('send_reports=?', 'true')}
 
   private    
 	def password_required?

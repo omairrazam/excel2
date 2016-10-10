@@ -1,5 +1,5 @@
 class SensorMailer < ApplicationMailer
-	default to: User.all.where('send_reports', 'true').pluck(:email),
+	default to: User.users_with_reports.pluck(:email),
 	         from: "sensordatain@gmail.com"
 
 	def sample_email(user)
