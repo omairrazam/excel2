@@ -1,0 +1,70 @@
+ <!-- Center Content -->
+    <!--***************-->
+    <div class="col-md-10">
+      <!-- info box section -->
+      <div class = "col-md-6"><br><br>
+        <%= form_tag ajax_info_box_update_path, :method => 'get' , :id => 'info_box_form', remote: true do %>
+        <p>
+          <span>Pick date to find quick stats</span>
+          <%= text_field_tag :date, @filter_date, id: 'info_box_datepicker', :required => true %>
+          <%= hidden_field_tag "id", @current_machine.id if @current_machine %>
+          <%= submit_tag "Filter", :name => nil %>
+
+        </p>
+
+        <% end %>
+      </div>
+       <!-- info box section end -->
+
+      <!-- print name -->
+       <span class="pull-right "><h3 style="font-family:Mank-Sans;"><%=current_user.try(:username).split.map(&:capitalize).join(' ') rescue '-'%></h3></span>
+      <!-- end print name -->
+
+    </div>
+    <div class="col-md-10 col-md-offset-2">
+    <div class="row">
+      <% if @current_machine.present? %>
+        <div >
+            <p class = "pull-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Date  : (<%= @machine_decorator.last_datum_date %>)</p>
+
+           <span class="pull-right"> Last Updated @ <%= time_ago_in_words(@machine_decorator.updated_at)  %>&nbsp;ago</span>
+        </div>
+
+      <% end %>
+      </div>
+      <!-- info box search filter -->
+      <!-- ********************** -->
+      <div id = "info_boxes"><%= render :partial => "info_boxes" %></div>
+      <!-- ********************** -->
+      <!-- info box search filter -->
+
+      <!-- Raw Data Graph  -->
+      <!-- *************** -->
+    	<div class="row">
+    		<div id="container_raw_data" class = "col-md-12" style="height: 400px; min-width: 310px"></div>
+    	</div>
+      <!-- *************** -->
+      <!-- Raw Data Graph  -->
+
+      <br>
+      <br>
+      <br>
+
+      <!-- Efficiency Data Graph  -->
+      <!-- *************** -->
+      <div class="row">
+        <div id="container_efficiency_data" class = "col-md-12" style="height: 400px; min-width: 310px"></div>
+      </div>
+      <!-- *************** -->
+      <!-- Efficiency Data Graph  -->
+    </div> 
+    <!--***************-->
+    <!-- Center Content -->
+
+
+<br>
+<br>
+<br>
+<%= render :partial => "data_chart" %>
+<%= render :partial => "efficiency_chart" %>
+

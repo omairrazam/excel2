@@ -12,17 +12,20 @@ class HomeController < BaseController
 	end
 
 	def show
-
+        #PygmentsWorker.perform_async
+      
 		if @current_machine.blank?
 			flash[:alert]  = 'Machine not present or you are not the owner' 
-			redirect_to root_path and return	
+			#redirect_to root_path and return
+		else
+			@machine_decorator = MachineDecorator.new(@current_machine.specific)
+		
+			if !@machine_decorator.has_data?
+				flash.now[:notice] = 'No Data Found...'
+			end
 		end
 		
-		@machine_decorator = MachineDecorator.new(@current_machine.specific)
 		
-		if !@machine_decorator.has_data?
-			flash.now[:notice] = 'No Data Found...'
-		end
 
 		#update machine
 		@current_machine.specific.process
