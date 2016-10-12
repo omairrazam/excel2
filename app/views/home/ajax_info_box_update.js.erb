@@ -2,7 +2,7 @@ $(function(){
 	$("#info_data_processing").hide();
 });
 
-<% if @machine_decorator.offtime_by_date.blank? %>
+<% if !@machine_decorator.has_data? %>
 	alert("No archives found for this date");	
 <% end %> 
  

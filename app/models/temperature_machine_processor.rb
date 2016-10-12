@@ -1,4 +1,6 @@
 class TemperatureMachineProcessor < BaseMachineProcessor
+	#track date
+	#track last value
 
 	def initialize(machine_instance)
 		@machine_instance = machine_instance
@@ -6,7 +8,7 @@ class TemperatureMachineProcessor < BaseMachineProcessor
 		@datum     = nil
 	end
 
-	def process_raw_datum(raw_datum)
+	def process_raw_datum(raw_datum,last_datum)
 		@raw_datum = raw_datum
 		@datum 	   = Datum.new
 		@datum.timee 	  = @raw_datum.time
@@ -16,9 +18,10 @@ class TemperatureMachineProcessor < BaseMachineProcessor
 
         add_timestamp_to_datum
         set_state_of_datum
-
+        add_min_max(last_datum)
         @datum
-
 	end
 
+
+	
 end

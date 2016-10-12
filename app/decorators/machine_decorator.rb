@@ -11,12 +11,29 @@ class MachineDecorator
 		@default_date = date
 	end
 
-	def offtime_by_date
-		@machine.acting_as.offtimes.where(date: @default_date).first if has_data?
+	
+
+	def cont_on_time
+		#debugger
+		time = self.datums.where('datee=?', @default_date).maximum(:cont_on_time) || 0
+		time = time/1000 #seconds
+		hrs   = time / 3600
+		mins  = time % 60
+		final = hrs.to_s + "h " + mins.to_s + "m"
+	end
+
+	def cont_off_time
+	
+		time  = self.datums.where('datee=?', @default_date).maximum(:cont_off_time)|| 0
+		time  = time/1000 #seconds
+		hrs   = time / 3600
+		mins  = time % 60
+
+		final = hrs.to_s + "h " + mins.to_s + "m"
 	end
 
 	def last_datum_date
-		date = @machine.datums.order('datee asc').last.datee.strftime("%Y-%m-%d") rescue '-' if has_data?
+		date = @machine.datums.order('datee asc').last.datee.strftime("%Y-%m-%d") rescue '-' 
 	end
 
 	def live_value
@@ -45,15 +62,15 @@ class MachineDecorator
 
 	def total_uptime
 		#debugger
-		d     = @machine.datums.where('numbere>=? AND datee=?',@machine.threshold,@default_date).count
-		d     = d*68/60
+		d     = @machine.datums.where('state=? AND datee=?','on',@default_date).count
+		d     = d*60/60
 		hrs   = d / 60
 		mins  = d % 60
 		final = hrs.to_s + "h " + mins.to_s + "m"
 	end
 
 	def has_data?
-		@machine.datums.present?
+		@machine.datums.where('datee=?',@default_date).present?
 	end
 	
 	def total_monitored_time

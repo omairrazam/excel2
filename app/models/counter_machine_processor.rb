@@ -9,7 +9,7 @@ class CounterMachineProcessor < BaseMachineProcessor
 		
 	end
 
-	def process_raw_datum(raw_dat)
+	def process_raw_datum(raw_dat,last_datum)
        @raw_datum = raw_dat
        @datum 	  = Datum.new
         # check for zero value
@@ -30,6 +30,7 @@ class CounterMachineProcessor < BaseMachineProcessor
         # check if reset counter is required
        	reset_counter_check
        	@last_value = @raw_datum.sensor_value
+       	add_min_max(last_datum)
        	# return object
         @datum
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161006033441) do
+ActiveRecord::Schema.define(version: 20161012143611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,13 +43,15 @@ ActiveRecord::Schema.define(version: 20161006033441) do
     t.time     "timee"
     t.float    "numbere"
     t.string   "typee"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.integer  "machine_id"
     t.date     "datee"
     t.string   "state"
     t.float    "gradient"
-    t.integer  "timestampe", limit: 8
+    t.integer  "timestampe",    limit: 8
+    t.integer  "cont_on_time",  limit: 8
+    t.integer  "cont_off_time", limit: 8
   end
 
   add_index "data", ["machine_id"], name: "index_data_on_machine_id", using: :btree

@@ -43,13 +43,13 @@
     
      <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Max continuous on time:</strong><center><p class="lbl-info purple"><%=@machine_decorator.offtime_by_date.max_continuous_on_time rescue "-" %></p></center>
+        <strong>Max continuous on time:</strong><center><p class="lbl-info purple"><%=@machine_decorator.cont_on_time %></p></center>
       </div>
     </li>
 
      <li class="col-sm-3 manual-margin">      
       <div class="thumbnail">
-        <strong>Max continuous off time:</strong><center><p class="lbl-info blue"><%=@machine_decorator.offtime_by_date.max_continuous_off_time rescue "-" %></p></center>
+        <strong>Max continuous off time:</strong><center><p class="lbl-info blue"><%=@machine_decorator.cont_off_time %></p></center>
       </div>
     </li>
   </ul>

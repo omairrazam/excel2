@@ -33,9 +33,13 @@ class CounterMachine < ActiveRecord::Base
 	def bulk_import_datums(data)
 		all_data = []
 		processor = CounterMachineProcessor.new(self)
+		last_datum = self.datums.last 
 		data.each do |row|
-			d = processor.process_raw_datum(row)
-			all_data << d if d.present?
+			d = processor.process_raw_datum(row,last_datum)
+			if d.present?
+				all_data << d 
+				last_datum = d
+			end
 		end
 		Datum.import all_data
 	end

@@ -10,7 +10,7 @@ class CurrentMachine < ActiveRecord::Base
 		self.save
 
 		if self.datums.count > 0
-			load_offtimes
+			#load_offtimes
 		end
 	end
 
@@ -31,10 +31,14 @@ class CurrentMachine < ActiveRecord::Base
 		all_data = []
 		# currently processing is same as Temperature
 		# will create its own processor in future if required
-		processor = TemperatureMachineProcessor.new(self)
+		processor  = TemperatureMachineProcessor.new(self)
+		last_datum = self.datums.last 
 		data.each do |row|
-			d = processor.process_raw_datum(row)
-			all_data << d if d.present?
+			d = processor.process_raw_datum(row,last_datum)
+			if d.present?
+				all_data << d 
+				last_datum = d
+			end
 		end
 		Datum.import all_data
 	end

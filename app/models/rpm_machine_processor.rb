@@ -7,7 +7,7 @@ class RpmMachineProcessor < BaseMachineProcessor
 		@previous_datum = nil
 	end
 
-	def process_raw_datum(raw_datum)
+	def process_raw_datum(raw_datum, last_datum)
 		
 		@raw_datum = raw_datum
 		@datum 	   = Datum.new
@@ -19,7 +19,7 @@ class RpmMachineProcessor < BaseMachineProcessor
 		
         add_timestamp_to_datum
         set_state_of_datum
-
+        add_min_max(last_datum)
         fill_gradient
         @datum
 	end

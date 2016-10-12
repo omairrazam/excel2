@@ -19,9 +19,10 @@ class TemperatureMachine < ActiveRecord::Base
 		selected_datums = datums.find_by_date(date)
 		total_datums    = selected_datums.count
 		on_datums       = selected_datums.find_by_state('on').count.to_f
+		#debugger
 		efficiency = 0
 		if total_datums > 0
-		efficiency  = on_datums.to_f/total_datums * 100 
+		 efficiency  = on_datums.to_f/total_datums * 100 
 	    end
 	    efficiency.round(2)
 	end
@@ -31,9 +32,13 @@ class TemperatureMachine < ActiveRecord::Base
 	def bulk_import_datums(data)
 		all_data = []
 		processor = TemperatureMachineProcessor.new(self)
+		last_datum = self.datums.last 
 		data.each do |row|
-			d = processor.process_raw_datum(row)
-			all_data << d if d.present?
+			d = processor.process_raw_datum(row,last_datum)
+			if d.present?
+				all_data << d 
+				last_datum = d
+			end
 		end
 		Datum.import all_data
 	end
