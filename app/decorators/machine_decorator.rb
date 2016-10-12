@@ -16,7 +16,7 @@ class MachineDecorator
 	end
 
 	def last_datum_date
-		date = @machine.datums.last.datee.strftime("%Y-%m-%d") rescue '-' if has_data?
+		date = @machine.datums.order('datee asc').last.datee.strftime("%Y-%m-%d") rescue '-' if has_data?
 	end
 
 	def live_value
