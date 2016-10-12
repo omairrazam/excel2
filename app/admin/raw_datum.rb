@@ -2,6 +2,10 @@ ActiveAdmin.register RawDatum do
 
 	filter :sensor_id
 	filter :sensor_type
+	filter :date
+	filter :sensor_value
+	filter :time
+	
 	config.clear_action_items!
 	index do
 	    selectable_column
