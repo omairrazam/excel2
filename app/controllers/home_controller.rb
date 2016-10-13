@@ -23,12 +23,14 @@ class HomeController < BaseController
 			if !@machine_decorator.has_data?
 				flash.now[:notice] = 'No Data Found...'
 			end
+
+			
+			#update machine
+			@current_machine.specific.process
 		end
 		
 		
 
-		#update machine
-		@current_machine.specific.process
 
 	end
 
