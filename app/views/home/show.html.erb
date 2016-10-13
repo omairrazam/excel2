@@ -12,8 +12,6 @@
     </div>
     <!--***************-->
     <!-- Left Sidebar -->
-    <% if @current_machine.present? %>
-    <div class="col-md-2">
+    <% if @current_machine.present? %>  
       <%= render :partial => "content" %>
-    </div>
     <% end %>
