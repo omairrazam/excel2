@@ -4,7 +4,7 @@ class SensorMailer < ApplicationMailer
 
 	def sample_email(user)
       @user  = user
-      @date  = Time.now.strftime("%m/%d/%Y")
+      @date  = Time.now.strftime("%Y/%m/%d")
       
       mail( subject: "#{@user.username.capitalize}'s Machine Updates at #{Time.now}")
     end
