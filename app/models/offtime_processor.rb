@@ -8,7 +8,7 @@ class OfftimeProcessor
 	def process_new_datums
 		# fetch all unique dates after last_date
 		# for each date find its efficiency using machien's formula
-		debugger
+		
 		dates = @machine.datums.find_after_date(@last_date).pluck(:datee).uniq
 		all_offtimes = []
 		
