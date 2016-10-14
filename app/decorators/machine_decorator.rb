@@ -116,7 +116,7 @@ class MachineDecorator
 	end
 
 	def grapher_offtime_data
-		self.offtimes.pluck(:timestampe, :efficiency)	
+		self.offtimes.order("timestampe asc").pluck(:timestampe, :efficiency)	
 		#@machine.getofftimes_for_graph if has_data?
 	end
 
