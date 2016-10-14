@@ -18,11 +18,11 @@ class MachineDecorator
 			dats = dats.by_hour(@default_hour)
 		end
 
-		time = dats.maximum(:cont_on_time) || 0
-		time = time/1000 #seconds
-		hrs   = time / 3600
-		mins  = time % 60
-		final = hrs.to_s + "h " + mins.to_s + "m"
+		time     = dats.maximum(:cont_on_time) || 0
+		seconds  = time /1000 #seconds
+		mins     = seconds / 60
+		hrs      = mins / 60
+		final    = hrs.to_s + "h " + (mins%60).to_s + "m"
 	end
 
 	def cont_off_time
@@ -32,12 +32,12 @@ class MachineDecorator
 			dats = dats.by_hour(@default_hour)
 		end
 		
-		time = dats.maximum(:cont_off_time) || 0
-		time  = time /1000 #seconds
-		hrs   = time / 3600
-		mins  = time % 60
+		time     = dats.maximum(:cont_off_time) || 0
+		seconds  = time /1000 #seconds
+		mins     = seconds / 60
+		hrs      = mins / 60
 
-		final = hrs.to_s + "h " + mins.to_s + "m"
+		final = hrs.to_s + "h " + (mins%60).to_s + "m"
 	end
 
 	def average_value_by_day
