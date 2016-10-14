@@ -9,10 +9,10 @@ class CounterMachine < ActiveRecord::Base
 		self.next_index_excel = data.last.id if data.present?
 		self.save
 
-		
 		if self.datums.count > 0
-			load_offtimes
+			process_offtimes
 		end
+		
 	end
 
 	def efficiency(date)
@@ -28,6 +28,10 @@ class CounterMachine < ActiveRecord::Base
 		efficiency.round(2)
 	end
 
+	def getdata_for_graph
+		datums.order('timestampe asc').pluck(:timestampe,:numbere)	
+	end
+	
 	private
 
 	def bulk_import_datums(data)

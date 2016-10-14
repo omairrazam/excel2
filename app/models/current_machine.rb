@@ -10,7 +10,7 @@ class CurrentMachine < ActiveRecord::Base
 		self.save
 
 		if self.datums.count > 0
-			#load_offtimes
+			process_offtimes
 		end
 	end
 
@@ -23,6 +23,10 @@ class CurrentMachine < ActiveRecord::Base
 			efficiency  = on_datums.to_f/total_datums * 100 
 		end
 	    efficiency.round(2)
+	end
+
+	def getdata_for_graph
+		datums.order('timestampe asc').pluck(:timestampe,:numbere)	
 	end
 
 	private

@@ -24,14 +24,9 @@ class HomeController < BaseController
 				flash.now[:notice] = 'No Data Found...'
 			end
 
-
 			#update machine
 			@current_machine.specific.process
 		end
-		
-		
-
-
 	end
 
 	private

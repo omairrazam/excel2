@@ -9,8 +9,8 @@ class RpmMachineProcessor < BaseMachineProcessor
 
 	def process_raw_datum(raw_datum, last_datum)
 		
-		@raw_datum = raw_datum
-		@datum 	   = Datum.new
+		@raw_datum        = raw_datum
+		@datum 	          = Datum.new
 		@datum.timee 	  = @raw_datum.time
 		@datum.datee 	  = @raw_datum.date
 		@datum.numbere 	  = @raw_datum.sensor_value 

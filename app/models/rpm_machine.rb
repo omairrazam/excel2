@@ -10,7 +10,7 @@ class RpmMachine < ActiveRecord::Base
 		self.save
 
 		if self.datums.count > 0
-			load_offtimes
+			process_offtimes
 		end
 	end
 
@@ -25,6 +25,10 @@ class RpmMachine < ActiveRecord::Base
 			efficiency = (total_datums - zero_gradients_count)/total_datums * 100 
 		end
 		efficiency.round(2)
+	end
+
+	def getdata_for_graph
+		datums.order('timestampe asc').pluck(:timestampe,:gradient)	
 	end
 
 	private

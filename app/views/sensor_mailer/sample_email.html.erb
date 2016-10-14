@@ -9,7 +9,7 @@
   <h1><%= @user.username.capitalize if @user.username.present?%>'s Data </h1>
   <hr>
   <% @user.machines.each do |m| %>
-    <% @machine_decorator = MachineDecorator.new(m.specific, @date) %>
+    <% @machine_decorator = MachineDecorator.new(m.specific, @date, @hour) %>
   	<div class="panel panel-default col-md-6" style="padding:0px !important;">
 	   	<div class="panel-heading"><%= m.name.capitalize if m.name.present?%>'s Data </div>
 	   	<% offtime = m.offtimes.where("date=?", @date).first%>
