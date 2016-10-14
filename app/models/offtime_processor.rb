@@ -8,6 +8,7 @@ class OfftimeProcessor
 	def process_new_datums
 		# fetch all unique dates after last_date
 		# for each date find its efficiency using machien's formula
+		debugger
 		dates = @machine.datums.find_after_date(@last_date).pluck(:datee).uniq
 		all_offtimes = []
 		
@@ -27,7 +28,7 @@ class OfftimeProcessor
 	private
 
 	def load_last_offtime
-		@last_offtime = @machine.offtimes.last # load existing value
+		@last_offtime = @machine.offtimes.order("date asc").last # load existing value
 		if @last_offtime.blank? # create a new one if not already existing
 			@last_offtime            = Offtime.new
 			@last_offtime.date       = @machine.datums.minimum(:datee)
