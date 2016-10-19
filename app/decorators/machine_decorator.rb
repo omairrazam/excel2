@@ -1,5 +1,5 @@
 class MachineDecorator
-	attr_reader :machine, :default_date
+	attr_reader :machine, :default_date, :default_hour
 
 	def initialize(machine, date=nil, hour=nil)
 		@machine = machine
@@ -12,13 +12,14 @@ class MachineDecorator
 	end
 
 	def cont_on_time
-		dats = self.datums.find_by_date(@default_date)
+		dats  = self.datums.find_by_date(@default_date)
+		time  = dats.maximum(:cont_on_time) || 0
 
 		if @default_hour.present?
 			dats = dats.by_hour(@default_hour)
+			time = (dats.maximum(:cont_on_time) - dats.minimum(:cont_on_time)) || 0
 		end
 
-		time     = dats.maximum(:cont_on_time) || 0
 		seconds  = time /1000 #seconds
 		mins     = seconds / 60
 		hrs      = mins / 60
@@ -27,12 +28,13 @@ class MachineDecorator
 
 	def cont_off_time
 		dats = self.datums.find_by_date(@default_date)
+		time = dats.maximum(:cont_off_time) || 0
 
 		if @default_hour.present?
 			dats = dats.by_hour(@default_hour)
+			time = (dats.maximum(:cont_off_time) - dats.minimum(:cont_off_time)) || 0
 		end
 		
-		time     = dats.maximum(:cont_off_time) || 0
 		seconds  = time /1000 #seconds
 		mins     = seconds / 60
 		hrs      = mins / 60
@@ -66,6 +68,7 @@ class MachineDecorator
 		return 0 if !has_data?
 		
 		dats = self.datums.find_by_date(@default_date)
+		
 		if @default_hour.present?
 			dats = dats.by_hour(@default_hour)
 		end

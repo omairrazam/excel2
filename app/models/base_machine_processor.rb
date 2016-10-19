@@ -1,5 +1,4 @@
 class BaseMachineProcessor
-
 	protected
 	def add_timestamp_to_datum
 		timestamp    = @raw_datum.date.to_s + ' ' + @raw_datum.time.strftime('%H:%M:%S').to_s
