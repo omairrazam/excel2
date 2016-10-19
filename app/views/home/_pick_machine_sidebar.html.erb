@@ -9,7 +9,7 @@
   </div>
   <hr>
   <ul class="nav nav-sidebar">
-   <% current_user.machines.each do |m| %>
+   <% current_user.machines.order("created_at asc").each do |m| %>
      <li class = <%= nav_class(home_path(m.id))%>>
       <%= link_to  home_path(m.id), class: "" do %>
         <i class="fa fa-bar-chart" ></i> <%= m.name %>
