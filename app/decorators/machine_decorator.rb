@@ -13,11 +13,11 @@ class MachineDecorator
 
 	def cont_on_time
 		dats  = self.datums.find_by_date(@default_date)
-		time  = dats.maximum(:cont_on_time) || 0
-
-		if @default_hour.present?
+		time  = dats.present? ? dats.maximum(:cont_on_time) : 0
+		
+		if @default_hour.present? and dats.present?
 			dats = dats.by_hour(@default_hour)
-			time = (dats.maximum(:cont_on_time) - dats.minimum(:cont_on_time)) || 0
+			time = (dats.maximum(:cont_on_time) - dats.minimum(:cont_on_time)) if dats.present?
 		end
 
 		seconds  = time /1000 #seconds
@@ -28,11 +28,11 @@ class MachineDecorator
 
 	def cont_off_time
 		dats = self.datums.find_by_date(@default_date)
-		time = dats.maximum(:cont_off_time) || 0
+		time = dats.present? ? dats.maximum(:cont_off_time) : 0
 
-		if @default_hour.present?
-			dats = dats.by_hour(@default_hour)
-			time = (dats.maximum(:cont_off_time) - dats.minimum(:cont_off_time)) || 0
+		if @default_hour.present?  
+			dats = dats.by_hour(@default_hour) 
+			time = (dats.maximum(:cont_off_time) - dats.minimum(:cont_off_time)) if dats.present?
 		end
 		
 		seconds  = time /1000 #seconds
