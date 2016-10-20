@@ -17,7 +17,7 @@ class MachineDecorator
 		
 		if @default_hour.present? and dats.present?
 			dats = dats.by_hour(@default_hour)
-			time = (dats.maximum(:cont_on_time) - dats.minimum(:cont_on_time)) if dats.present?
+			time = dats.present? ? (dats.maximum(:cont_on_time) - dats.minimum(:cont_on_time)) : 0
 		end
 
 		seconds  = time /1000 #seconds
@@ -32,7 +32,7 @@ class MachineDecorator
 
 		if @default_hour.present?  
 			dats = dats.by_hour(@default_hour) 
-			time = (dats.maximum(:cont_off_time) - dats.minimum(:cont_off_time)) if dats.present?
+			time = dats.present? ? (dats.maximum(:cont_off_time) - dats.minimum(:cont_off_time)) : 0 
 		end
 		
 		seconds  = time /1000 #seconds
