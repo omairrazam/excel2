@@ -28,8 +28,8 @@ class CounterMachine < ActiveRecord::Base
 		efficiency.round(2)
 	end
 
-	def getdata_for_graph
-		datums.order('timestampe asc').pluck(:timestampe,:numbere)	
+	def getdata_for_graph(date = self.datums.last.datee)
+		datums.find_by_date(date).order('timestampe asc').pluck(:timestampe,:numbere)	
 	end
 	
 	private
