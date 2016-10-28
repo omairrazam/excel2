@@ -1,16 +1,11 @@
 $(function(){
 
-	$('#info_box_form').submit(function(e){
-	 	e.preventDefault();
-	 	$("#info_data_processing").show();
-	});
+	// $('#info_box_form').submit(function(e){
+	//  	e.preventDefault();
+	//  	$("#info_data_processing").show();
+	// });
 
-	$('input[type=radio][name=machine]').change(function() {
-        $("form#machine_form").submit();
-    });
-
-   // $( "#datepicker" ).datepicker();
-    //$( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	
 
     var $datepicker = $('#info_box_datepicker');
     $datepicker.datepicker({

@@ -7,6 +7,7 @@ class MachineDecorator
 		if date.blank?
 			date = last_datum_date
 		end
+
 		@default_hour = hour
 		@default_date = date
 	end
@@ -115,7 +116,7 @@ class MachineDecorator
 	end
 
 	def grapher_data
-		@machine.getdata_for_graph if has_data?
+		@machine.getdata_for_graph(@default_date) if has_data?
 	end
 
 	def grapher_offtime_data

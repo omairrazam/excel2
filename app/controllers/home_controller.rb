@@ -18,7 +18,7 @@ class HomeController < BaseController
 			flash.now[:alert]  = 'Machine not present' 
 			#redirect_to root_path and return
 		else
-			@machine_decorator = MachineDecorator.new(@current_machine.specific)
+			@machine_decorator = MachineDecorator.new(@current_machine.specific, params[:date])
 		
 			if !@machine_decorator.has_data?
 				flash.now[:notice] = 'No Data Found...'
