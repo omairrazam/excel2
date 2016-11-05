@@ -4,10 +4,11 @@ class SensorMailer < ApplicationMailer
 
 	def sample_email(user)
       @user  = user
-      @date  = Time.now.strftime("%Y/%m/%d")
-      @hour  = Time.now.strftime("%H")
+      @date  = Time.zone.now.strftime("%Y/%m/%d")
+      @hour  = ((Time.zone.now.strftime("%H")).to_i - 1 ).to_s
 
-      mail(to:@user.email, subject: "#{@user.username.capitalize}'s Machine Updates at #{Time.now}", cc: ["omairr.azam@gmail.com","niktrychill@gmail.com"])
+
+      mail(to:@user.email, subject: "#{@user.username.capitalize}'s Machine Updates at #{Time.zone.now}", cc: ["omairr.azam@gmail.com","niktrychill@gmail.com"])
     end
 
 end
