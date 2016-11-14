@@ -66,7 +66,7 @@ class MachineDecorator
 	end
 
 	def total_monitored_time
-		final = 10.to_s +"h " + 10.to_s + "m"
+		final = "10 h " + "10 m"
 		# return 0 if !has_data?
 		
 		# dats = self.datums.find_by_date(@default_date)
