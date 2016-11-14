@@ -6,7 +6,6 @@ class CounterMachineProcessor < BaseMachineProcessor
 		@offset_value = 0
 		@last_value   = 0 
 		@machine_instance = machine_instance
-		
 	end
 
 	def process_raw_datum(raw_dat,last_datum)

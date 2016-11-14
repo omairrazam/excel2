@@ -66,20 +66,21 @@ class MachineDecorator
 	end
 
 	def total_monitored_time
-		return 0 if !has_data?
+		final = 10.to_s +"h " + 10.to_s + "m"
+		# return 0 if !has_data?
 		
-		dats = self.datums.find_by_date(@default_date)
+		# dats = self.datums.find_by_date(@default_date)
 		
-		if @default_hour.present?
-			dats = dats.by_hour(@default_hour)
-		end
+		# if @default_hour.present?
+		# 	dats = dats.by_hour(@default_hour)
+		# end
 
-		d = dats.count  
-		d = d*60/60
+		# d = dats.count  
+		# d = d*60/60
 
-		hrs   = d / 60
-		mins  = d % 60
-		final = hrs.to_s + "h " + mins.to_s + "m"
+		# hrs   = d / 60
+		# mins  = d % 60
+		# final = hrs.to_s + "h " + mins.to_s + "m"
 	end
 
 	def total_uptime
