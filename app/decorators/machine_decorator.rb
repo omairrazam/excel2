@@ -13,7 +13,7 @@ class MachineDecorator
 	end
 
 	def cont_on_time
-		dats  = self.datums.find_by_date(@default_date)
+		dats  = @machine.datums.find_by_date(@default_date)
 		time  = dats.present? ? dats.maximum(:cont_on_time) : 0
 		
 		if @default_hour.present? and dats.present?
@@ -28,7 +28,7 @@ class MachineDecorator
 	end
 
 	def cont_off_time
-		dats = self.datums.find_by_date(@default_date)
+		dats = @machine.datums.find_by_date(@default_date)
 		time = dats.present? ? dats.maximum(:cont_off_time) : 0
 
 		if @default_hour.present?  
@@ -46,7 +46,7 @@ class MachineDecorator
 	def average_value_by_day
 		return 0 if !has_data?
 		
-		dats = self.datums.find_by_date(@default_date)
+		dats = @machine.datums.find_by_date(@default_date)
 		if @default_hour.present?
 			dats = dats.by_hour(@default_hour)
 		end
@@ -57,7 +57,7 @@ class MachineDecorator
 	def maximum_value_by_day
 		return 0 if !has_data?
 
-		dats = self.datums.find_by_date(@default_date)
+		dats = @machine.datums.find_by_date(@default_date)
 		if @default_hour.present?
 			dats = dats.by_hour(@default_hour)
 		end
@@ -68,7 +68,7 @@ class MachineDecorator
 	def total_monitored_time
 		return 0 if !has_data?
 		
-		dats = self.datums.find_by_date(@default_date)
+		dats = @machine.datums.find_by_date(@default_date)
 		
 		if @default_hour.present?
 			dats = dats.by_hour(@default_hour)
@@ -86,7 +86,7 @@ class MachineDecorator
 	def total_uptime
 		return 0 if !has_data?
 
-		dats = self.datums.where('state=? AND datee=?','on',@default_date)
+		dats = @machine.datums.where('state=? AND datee=?','on',@default_date)
 		if @default_hour.present?
 			dats = dats.by_hour(@default_hour)
 		end
