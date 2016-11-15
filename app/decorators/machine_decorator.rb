@@ -79,7 +79,9 @@ class MachineDecorator
 
 		hrs   = d / 60
 		mins  = d % 60
-		final = hrs.to_s + "h " + mins.to_s + "m"
+
+		mins
+		#final = hrs.to_s + "h " + mins.to_s + "m"
 	end
 
 	def total_uptime
