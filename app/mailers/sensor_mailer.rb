@@ -4,7 +4,7 @@ class SensorMailer < ApplicationMailer
 
 	def sample_email(user)
       @user  = user
-      @date  = Time.zone.now.strftime("%Y/%m/%d")
+      @date  = Time.zone.now.strftime("%Y-%m-%d")
       @hour  = ((Time.zone.now.strftime("%H")).to_i - 1 ).to_s
 
       #@date = "2016-11-16"
