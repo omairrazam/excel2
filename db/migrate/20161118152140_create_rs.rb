@@ -1,6 +1,6 @@
 class CreateRs < ActiveRecord::Migration
   def change
-    create_table :thedata do |t|
+    create_table :thedata2 do |t|
       t.date :date
       t.time :time
       t.integer :sensor_id
