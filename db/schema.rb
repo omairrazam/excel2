@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014091301) do
+ActiveRecord::Schema.define(version: 20161118152140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,21 +101,18 @@ ActiveRecord::Schema.define(version: 20161014091301) do
     t.float "grad"
   end
 
-  create_table "table1", id: false, force: :cascade do |t|
-    t.string  "field1"
-    t.integer "field2"
-  end
-
   create_table "temperature_machines", force: :cascade do |t|
   end
 
   create_table "thedata", force: :cascade do |t|
-    t.date    "date"
-    t.time    "time"
-    t.integer "sensor_id"
-    t.integer "sensor_type"
-    t.float   "sensor_value"
-    t.integer "millis"
+    t.date     "date"
+    t.time     "time"
+    t.integer  "sensor_id"
+    t.integer  "sensor_type"
+    t.float    "sensor_value"
+    t.integer  "millis"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "users", force: :cascade do |t|

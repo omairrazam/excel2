@@ -58,6 +58,7 @@ gem "iconv", "~> 1.0.3"
 group :production do
   gem 'pg', '0.18.4'
 end
+gem "activerecord-import"
 
 #gem 'figaro'
 group :development do
@@ -78,3 +79,4 @@ gem 'capistrano-sidekiq' , group: :development
 gem 'sidetiq', '~> 0.7.0'
 gem "activerecord-import"
 #gem 'gdata_19', '1.1.5'
+gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'

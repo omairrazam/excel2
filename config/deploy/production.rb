@@ -1,7 +1,7 @@
 #server '52.36.143.78', user: 'deploy', roles: %w{web app db}
 
-
-server '52.39.192.255', user: 'deploy', roles: %w{web app db}
+#server '35.164.44.76', user: 'deploy', roles: %w{web app db} #staging
+server '52.39.192.255', user: 'deploy', roles: %w{web app db} #live
 
 set :pty,  false
 # server-based syntax

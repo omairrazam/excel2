@@ -110,6 +110,10 @@ GEM
     capistrano3-puma (1.2.1)
       capistrano (~> 3.0)
       puma (>= 2.6)
+    carrierwave (1.0.0.rc)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     celluloid (0.17.3)
       celluloid-essentials
       celluloid-extras
@@ -362,6 +366,7 @@ DEPENDENCIES
   capistrano-rvm
   capistrano-sidekiq
   capistrano3-puma
+  carrierwave (>= 1.0.0.rc, < 2.0)
   certified (~> 1.0)
   coffee-rails (~> 4.1.0)
   devise (~> 4.0, >= 4.0.3)

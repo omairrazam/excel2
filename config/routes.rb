@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'filter'    => 'home#filter_stats'
   get 'ajax_info_box_update' => 'home#ajax_info_box_update'
   
+  get 'load_file' => 'files_loader#show_loader'
+  post 'load_file' => 'files_loader#load_file'
   mount Sidekiq::Web, at: '/sidekiq'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
