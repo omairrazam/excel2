@@ -11,7 +11,7 @@
   <% @user.machines.each do |m| %>
     <% @machine_decorator = MachineDecorator.new(m.specific, @date, @hour) %>
   	<div class="panel panel-default col-md-6" style="padding:0px !important;">
-	   	<div class="panel-heading"><%= m.name.capitalize if m.name.present?%>'s Data (<%= @hour + '--' + @date.to_s %>) </div>
+	   	<div class="panel-heading"><%= m.name.capitalize if m.name.present?%>'s Data (<%= @machine_decorator.default_hour + '--' + @machine_decorator.default_date %>) </div>
 	   	<% offtime = m.offtimes.where("date=?", @date).first%>
 	   	<div class="panel-body ">
 	   		
@@ -22,7 +22,6 @@
 		      <tr>
 		        <td><strong>Total On Time:</strong></td>
 		        <td><%= @machine_decorator.total_uptime %></td>
-		        
 		      </tr>
 		      <tr>
 		        <td><strong>Total Monitored Time:</strong></td>
