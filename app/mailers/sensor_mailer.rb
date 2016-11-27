@@ -7,8 +7,8 @@ class SensorMailer < ApplicationMailer
       @date  = Time.zone.now.strftime("%Y-%m-%d").to_s
       @hour  = ((Time.zone.now.strftime("%H")).to_i - 1 ).to_s
 
-      #@date = "2016-11-16"
-      #@hour = "17"
+      @date = "2016-11-27"
+      @hour = "19"
 
       mail(to:@user.email, subject: "#{@user.username.capitalize}'s Machine Updates at #{Time.zone.now}", cc: ["omairr.azam@gmail.com","niktrychill@gmail.com"])
     end
