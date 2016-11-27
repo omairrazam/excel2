@@ -14,8 +14,13 @@ class RpmMachine < ActiveRecord::Base
 		end
 	end
 
-	def efficiency(date)
-		selected_datums = datums.find_by_date(date)
+	def efficiency(date, hour=nil)
+		selected_datums = self.datums.find_by_date(date)
+
+		if hour.present?
+			selected_datums = selected_datums.by_hour(hour)
+		end
+
 		total_datums    = selected_datums.count
 		on_datums       = selected_datums.find_by_state('on').count.to_f
 

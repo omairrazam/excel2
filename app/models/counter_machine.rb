@@ -15,13 +15,19 @@ class CounterMachine < ActiveRecord::Base
 		
 	end
 
-	def efficiency(date)
-		selected_datums = datums.find_by_date(date)
+	def efficiency(date,hour=nil)
+		selected_datums = self.datums.find_by_date(date)
+
+		if hour.present?
+			selected_datums = selected_datums.by_hour(hour)
+		end
+
 		total_datums    = selected_datums.count
 		on_datums       = selected_datums.find_by_state('on').count.to_f
 
 		zero_gradients_count = selected_datums.find_by_gradient(0).count
 		efficiency = 0
+
 		if total_datums > 0
 			efficiency = (total_datums - zero_gradients_count).to_f/total_datums * 100 
 		end
