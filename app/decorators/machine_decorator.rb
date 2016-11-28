@@ -20,7 +20,18 @@ class MachineDecorator
 			time = 0
 			if dats.present?
 				dats = dats.by_hour(@default_hour)
-				time = dats.maximum(:cont_on_time) - dats.minimum(:cont_on_time)
+				max_dat = dats.where('cont_on_time =?', dats.maximum(:cont_on_time)).first
+
+				lower_cont_on_time = 0
+				upper_cont_on_time = 0
+
+				dats_lower = dats.where('id<=?',max_dat.id)
+				lower_cont_on_time = dats_lower.maximum(:cont_on_time) - dats_lower.minimum(:cont_on_time) if dats_lower.present?
+				
+				dats_upper = dats.where('id>?',max_dat.id)
+				upper_cont_on_time = dats_upper.maximum(:cont_on_time) - dats_upper.minimum(:cont_on_time) if dats_upper.present?
+				
+				time = (lower_cont_on_time > upper_cont_on_time) ? lower_cont_on_time : upper_cont_on_time
 			end
 		end
 
@@ -36,7 +47,19 @@ class MachineDecorator
 
 		if @default_hour.present?  
 			dats = dats.by_hour(@default_hour) 
-			time = dats.present? ? (dats.maximum(:cont_off_time) - dats.minimum(:cont_off_time)) : 0 
+
+			max_dat = dats.where('cont_off_time =?', dats.maximum(:cont_off_time)).first
+
+			lower_cont_off_time = 0
+			upper_cont_off_time = 0
+
+			dats_lower = dats.where('id<=?',max_dat.id)
+			lower_cont_off_time = dats_lower.maximum(:cont_off_time) - dats_lower.minimum(:cont_off_time) if dats_lower.present?
+			
+			dats_upper = dats.where('id>?',max_dat.id)
+			upper_cont_off_time = dats_upper.maximum(:cont_off_time) - dats_upper.minimum(:cont_off_time) if dats_upper.present?
+			
+			time = (lower_cont_off_time > upper_cont_off_time) ? lower_cont_off_time : upper_cont_off_time
 		end
 		
 		seconds  = time /1000 #seconds
