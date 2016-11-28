@@ -16,9 +16,12 @@ class MachineDecorator
 		dats  = @machine.datums.find_by_date(@default_date)
 		time  = dats.present? ? dats.maximum(:cont_on_time) : 0
 		
-		if @default_hour.present? and dats.present?
-			dats = dats.by_hour(@default_hour)
-			time = dats.present? ? (dats.maximum(:cont_on_time) - dats.minimum(:cont_on_time)) : 0
+		if @default_hour.present? 
+			time = 0
+			if dats.present?
+				dats = dats.by_hour(@default_hour)
+				time = dats.maximum(:cont_on_time) - dats.minimum(:cont_on_time)
+			end
 		end
 
 		seconds  = time /1000 #seconds
