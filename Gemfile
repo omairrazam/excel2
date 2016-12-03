@@ -59,6 +59,8 @@ group :production do
   gem 'pg', '0.18.4'
 end
 gem "activerecord-import"
+  
+gem 'capistrano-rails-console', require: false
 
 #gem 'figaro'
 group :development do
