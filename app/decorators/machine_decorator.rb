@@ -142,7 +142,18 @@ class MachineDecorator
 
 
 
-
+	def create_hourly_stat
+		HourlyStat.create(machine_id: @machine.acting_as.id, 
+						  datee: @default_date, 
+						  hour: @default_hour, 
+						  total_monitored_time: self.total_monitored_time,
+						  total_datums: self.total_datums,
+						  total_uptime: self.total_uptime,
+						  # cont_ontime:  self.cont_on_time,
+						  # cont_offtime: self.cont_off_time,
+						  # efficiency:   self.efficiency
+						  )
+	end
 
 
 

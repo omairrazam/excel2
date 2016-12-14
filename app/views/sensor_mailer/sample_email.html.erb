@@ -11,7 +11,7 @@
   <% @user.machines.each do |m| %>
     <% @machine_decorator = MachineDecorator.new(m.specific, @date, @hour) %>
 
-    <% HourlyStat.create(machine_id: m.id, datee: @date, hour: @hour)%>
+    <%  @machine_decorator.create_hourly_stat %>
 
 
 
