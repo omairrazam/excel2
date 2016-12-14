@@ -13,12 +13,12 @@
 
     <% m.hourly_stats.create(datee: @date, 
     						 hour: @hour, 
-    						 total_monitored_time: @machine_decorator.total_monitored_time),
+    						 total_monitored_time: @machine_decorator.total_monitored_time,
     						 total_datums: @machine_decorator.total_datums,
     						 total_uptime: @machine_decorator.total_uptime,
     						 cont_ontime:  @machine_decorator.cont_on_time,
     						 cont_offtime: @machine_decorator.cont_off_time,
-    						 efficiency:   @machine_decorator.efficiency 			%>
+    						 efficiency:   @machine_decorator.efficiency) %>
 
 
 
