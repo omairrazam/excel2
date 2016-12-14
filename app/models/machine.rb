@@ -7,6 +7,8 @@ class Machine < ActiveRecord::Base
 	has_many   :datums   , dependent: :destroy
 	has_many   :offtimes , dependent: :destroy
 
+	has_many   :hourly_stats , dependent: :destroy
+
 	#validations
 	validates  :name     , presence: true
 	validates  :threshold, presence: true

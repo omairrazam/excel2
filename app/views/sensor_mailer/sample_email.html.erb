@@ -10,6 +10,18 @@
   <hr>
   <% @user.machines.each do |m| %>
     <% @machine_decorator = MachineDecorator.new(m.specific, @date, @hour) %>
+
+    <% m.hourly_stats.create(datee: @date, 
+    						 hour: @hour, 
+    						 total_monitored_time: @machine_decorator.total_monitored_time),
+    						 total_datums: @machine_decorator.total_datums,
+    						 total_uptime: @machine_decorator.total_uptime,
+    						 cont_ontime:  @machine_decorator.cont_on_time,
+    						 cont_offtime: @machine_decorator.cont_off_time,
+    						 efficiency:   @machine_decorator.efficiency 			%>
+
+
+
   	<div class="panel panel-default col-md-6" style="padding:0px !important;">
 	   	<div class="panel-heading"><%= m.name.capitalize if m.name.present?%>'s Data (<%= @machine_decorator.default_hour + '--' + @machine_decorator.default_date %>) </div>
 	   	<% offtime = m.offtimes.where("date=?", @date).first%>

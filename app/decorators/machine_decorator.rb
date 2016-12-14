@@ -109,6 +109,18 @@ class MachineDecorator
 		final = hrs.to_s + "h " + mins.to_s + "m"
 	end
 
+	def total_datums
+		return 0 if !has_data?
+		
+		dats = @machine.datums.find_by_date(@default_date)
+		
+		if @default_hour.present?
+			dats = dats.by_hour(@default_hour)
+		end
+
+		dats.count 
+	end
+
 	def total_uptime
 		return 0 if !has_data?
 
