@@ -110,7 +110,7 @@ class MachineDecorator
 	end
 
 	def total_datums
-		return 0 if !has_data?
+		#return 0 if !has_data?
 		
 		dats = @machine.datums.find_by_date(@default_date)
 		

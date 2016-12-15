@@ -26,6 +26,10 @@ class HomeController < BaseController
 
 			#update machine
 			@current_machine.specific.process
+
+			#debugger
+
+			#@hourly_stats = @current_machine.hourly_stats.where('datee=?', params[:date]||Time.now.strftime("%F")).order('hour asc')
 		end
 	end
 
