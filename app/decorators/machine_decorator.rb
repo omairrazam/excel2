@@ -112,10 +112,10 @@ class MachineDecorator
 	def total_datums
 		#return 0 if !has_data?
 		
-		dats = @machine.datums.find_by_date(@default_date)
+		dats = self.machine.datums.find_by_date(self.default_date)
 		
-		if @default_hour.present?
-			dats = dats.by_hour(@default_hour)
+		if self.default_hour.present?
+			dats = dats.by_hour(self.default_hour)
 		end
 
 		dats.count 
@@ -135,12 +135,6 @@ class MachineDecorator
 		mins  = d % 60
 		final = hrs.to_s + "h " + mins.to_s + "m"
 	end
-
-
-
-
-
-
 
 	def create_hourly_stat
 		HourlyStat.create(machine_id: @machine.acting_as.id, 
