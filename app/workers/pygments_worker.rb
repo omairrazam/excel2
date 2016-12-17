@@ -10,14 +10,18 @@ class PygmentsWorker
   end
 
   def perform
-    users_with_reports = User.users_with_reports.count
-    if users_with_reports > 0
-      users = User.all
-      users.each do |user|
-        if user.machines.count > 0
-            SensorMailer.sample_email(user).deliver
-        end
-      end
-    end
+    u = User.find_by_email("niktrychill@gmail.com")
+
+    SensorMailer.sample_email(u).deliver
+
+    # users_with_reports = User.users_with_reports.count
+    # if users_with_reports > 0
+    #   users = User.all
+    #   users.each do |user|
+    #     if user.machines.count > 0
+    #         SensorMailer.sample_email(user).deliver
+    #     end
+    #   end
+    # end
   end
 end
