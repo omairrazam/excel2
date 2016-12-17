@@ -12,7 +12,7 @@ class HomeController < BaseController
 	end
 
 	def show
-        #PygmentsWorker.perform_async
+        PygmentsWorker.perform_async
       
 		if @current_machine.blank?
 			flash.now[:alert]  = 'Machine not present' 
@@ -29,7 +29,7 @@ class HomeController < BaseController
 
 			#debugger
 
-			#@hourly_stats = @current_machine.hourly_stats.where('datee=?', params[:date]||Time.now.strftime("%F")).order('hour asc')
+			@hourly_stats = @current_machine.hourly_stats.where('datee=?', params[:date]||Time.now.strftime("%F")).order('hour asc')
 		end
 	end
 
