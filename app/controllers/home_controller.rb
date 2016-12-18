@@ -12,7 +12,7 @@ class HomeController < BaseController
 	end
 
 	def show
-        PygmentsWorker.perform_async
+        #PygmentsWorker.perform_async
       
 		if @current_machine.blank?
 			flash.now[:alert]  = 'Machine not present' 
