@@ -11,15 +11,12 @@
   <% @user.machines.each do |m| %>
     <% @machine_decorator = MachineDecorator.new(m.specific, @date, @hour) %>
 
-    <%  @machine_decorator.create_hourly_stat %>
-
-
+    <% @machine_decorator.create_hourly_stat %>
 
   	<div class="panel panel-default col-md-6" style="padding:0px !important;">
 	   	<div class="panel-heading"><%= m.name.capitalize if m.name.present?%>'s Data (<%= @machine_decorator.default_hour + '--' + @machine_decorator.default_date %>) </div>
-	   	<% offtime = m.offtimes.where("date=?", @date).first%>
+	   	<% offtime = m.offtimes.where("date=?", @date).first %>
 	   	<div class="panel-body ">
-	   		
 	   		<table class="table table-striped">
 		    <tbody>
 		    <col width="20">
