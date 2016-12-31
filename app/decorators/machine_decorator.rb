@@ -7,7 +7,7 @@ class MachineDecorator
 		if date.blank?
 			date = last_datum_date
 		end
-
+		debugger
 		@default_hour = hour
 		@default_date = date
 	end
@@ -152,7 +152,7 @@ class MachineDecorator
 
 
 	def last_datum_date
-		date = @machine.datums.order('datee asc').last.datee.strftime("%Y-%m-%d") rescue '-' 
+		date = @machine.datums.order('datee asc').last.datee.strftime("%Y-%m-%d") rescue nil 
 	end
 
 	def live_value
@@ -169,6 +169,7 @@ class MachineDecorator
 	end
 
 	def has_data?
+
 		@machine.datums.where('datee=?',@default_date).present?
 	end
 	
