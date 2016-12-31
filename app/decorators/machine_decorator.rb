@@ -7,7 +7,7 @@ class MachineDecorator
 		if date.blank?
 			date = last_datum_date
 		end
-		debugger
+		#debugger
 		@default_hour = hour
 		@default_date = date
 	end
