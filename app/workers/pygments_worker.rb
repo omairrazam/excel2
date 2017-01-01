@@ -3,8 +3,8 @@ class PygmentsWorker
   include Sidetiq::Schedulable
 
   recurrence do
-    #hourly(1)
-    minutely(2)
+    hourly(1)
+    #minutely(2)
     # if you want to specify the exactly minute or minutes
     # `minute_of_hour(30, ...)`
     # hourly(2).minute_of_hour(30)
