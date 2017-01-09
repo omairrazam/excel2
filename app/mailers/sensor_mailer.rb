@@ -13,7 +13,7 @@ class SensorMailer < ApplicationMailer
       #@date = "2016-12-31"
       #@hour = "09"
 
-      mail(to:@user.email, subject: "#{@user.username.capitalize}'s Machine Updates at #{date_time}", cc: ["omairr.azam@gmail.com"])
+      mail(to:@user.email, subject: "#{@user.username.capitalize}'s Machine Updates at #{date_time}", cc: ["niktrychill@gmail.com"])
     end
 
 end
